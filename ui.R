@@ -1,19 +1,23 @@
-ui <- dashboardPage(
-    dark = TRUE,
-    help = TRUE,
-    fullscreen = TRUE,
-    dashboardHeader(
-        title = tags$a(
-            href = "https://www.openanalysis.org",
-            target = "_blank",
-            tags$img(src = "logo.png", style = 'width: 15vw; padding:1rem;'),
-            tags$head(
-                HTML(
-                    '<div class = "dark raised" data-ea-publisher="openanalysisorg" data-ea-type="image" data-ea-style="stickybox" id = "openspecweba"></div>'
-                )
-            )
-        ),
-        tags$li(
+dashboardPage(dark = T, 
+              help = T, 
+              fullscreen = T,
+        #Header ----
+        dashboardHeader( 
+            title = tags$a(href="https://www.openanalysis.org", 
+                           target="_blank",
+                        tags$img(src = "logo.png", 
+                                 style = 'width: 15vw; padding:1rem;'),
+                        tags$head(
+                            HTML(
+                                '<div class = "dark raised" data-ea-publisher="openanalysisorg" data-ea-type="image" data-ea-style="stickybox" id = "openspecweba"></div>'
+                            )
+                        ), 
+                        tags$head(
+                            tags$link(rel = "stylesheet",
+                                      href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css")
+                        )
+                        ), 
+            tags$li(
                 class = "dropdown",
                 style = "list-style-type: none;",
                 tags$a(
@@ -22,31 +26,40 @@ ui <- dashboardPage(
                     target = "_blank",
                     title = "Click here to view older versions of this app",
                     style = "font-size: 19px;text-decoration: none;"
+                     )
                 )
+            ),
+        #Sidebar ----
+        dashboardSidebar(
+            skin = "dark",
+            sidebarUserPanel(
+                name = "Welcome!"
+            ),
+            sidebarMenu(
+                id = "sidebarmenu",
+                menuItem(
+                    "Analyze Spectra",
+                    tabName = "analyze",
+                    icon = icon("bar-chart")
+                ),
+                menuItem(
+                    "About",
+                    tabName = "about",
+                    icon = icon("sliders-h")
+                ),
+                menuItem(
+                    "Partner With Us",
+                    tabName = "partner",
+                    icon = icon("hands-helping")
+                ),
+                menuItem(
+                    "Contract Us",
+                    tabName = "contract",
+                    icon = icon("file-contract")
                 )
-    ),
-    dashboardSidebar(
-        sidebarUserPanel(name = "Welcome!"),
-        sidebarMenu(
-            id = "sidebarmenu",
-            menuItem(
-                "Analyze Spectra",
-                tabName = "analyze",
-                icon = icon("bar-chart")
-            ),
-            menuItem("About", tabName = "about", icon = icon("sliders-h")),
-            menuItem(
-                "Partner With Us",
-                tabName = "partner",
-                icon = icon("hands-helping")
-            ),
-            menuItem(
-                "Contract Us",
-                tabName = "contract",
-                icon = icon("file-contract")
             )
-        )
-    ),
+        ),
+
     #Body ----
     dashboardBody(
         #Script for all pages ----
@@ -88,23 +101,20 @@ ui <- dashboardPage(
                                researchers from around the world who are part of
                                the Open Specy community by
                                analyzing, sharing, processing, and identifying
-                               their Raman and IR spectra."
-                            ),
-                            p(
-                                class = "lead",
-                                HTML(
-                                    "<span style='position: relative; top:.6ex;'><a
-                                      href='https://twitter.com/OpenSpecy?ref_src=twsrc%5Etfw'
-                                      class='twitter-follow-button' data-size='large' data-dnt='true'
-                                      data-show-count='false'>
-                                      Follow @OpenSpecy</a></span>
-                                      on Twitter"
-                                )
-                            ),
-                            p(
-                                class = "lead",
-                                HTML(
-                                    "<span style='position: relative; top:.8ex;'><a
+                               their Raman and IR spectra."),
+                                  p(class = "lead",
+                                    tags$span(style = "position:relative; top:.8ex;",
+                                              tags$a(
+                                                  href   = "https://www.linkedin.com/in/win-cowger/",
+                                                  target = "_blank",                   # open in new tab
+                                                  class  = "linkedin-button",          # custom CSS (below)
+                                                  icon("linkedin", class = "fa-2x")    # larger icon
+                                              )
+                                    ),
+                                    "Follow Win on LinkedIn for Latest Updates"
+                                  ),
+                               p(class = "lead",
+                                 HTML("<span style='position: relative; top:.8ex;'><a
                                     class='github-button' href='https://github.com/wincowgerDEV/OpenSpecy/subscription'
                                     data-color-scheme='no-preference: dark; light: dark; dark: dark;'
                                     data-size='large' aria-label='Watch wincowgerDEV/OpenSpecy'>Watch</a></span>
@@ -134,54 +144,46 @@ ui <- dashboardPage(
                                 class = "lead",
                                 "Looking for the classic version of OpenSpecy? Go to wincowger.shinyapps.io/openspecy-classic"
                             )
-                        ), column(
-                            6,
-                            HTML(
-                                "<iframe width='100%' height='100%' src='https://www.youtube-nocookie.com/embed/3RKufDxzriE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>"
-                            )
                         ))
                     )
-                ),
+                ), 
                 accordion(
-                    id = "accordion_instructions",
-                    accordionItem(
-                        title = "Detailed Instructions",
-                        status = "info",
-                        collapsed = TRUE,
-                        fluidRow(column(
-                            6,
-                            HTML(
-                                "<iframe width='100%' height='50%' src='https://www.youtube-nocookie.com/embed/oWwRWwXf0sc' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>"
-                            ),
-                            HTML(
-                                "<iframe width='100%' height='50%' src='https://www.youtube-nocookie.com/embed/cZZ3hgvIcao' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>"
-                            )
-                        ), column(
-                            6,
-                            tags$ol(
-                                tags$li(
-                                    "Upload a .zip, .csv, .0, .asp, .jdx, .spc, or .spa file to the upload file tab."
-                                ),
-                                tags$li(
-                                    "Process your data using smoothing, derivative, baseline correction, flattening, range selection, and intensity adjustment."
-                                ),
-                                tags$li(
-                                    "Identify your spectra using onboard reference libraries and/or AI"
-                                ),
-                                tags$li("Download your results"),
-                                tags$li(
-                                    "For more details click the button below for the SOP or watch the detailed instructional videos."
-                                )
-                            ),
-                            a(
-                                "SOP",
-                                onclick = "window.open('http://wincowger.com/OpenSpecy-package/articles/app.html', '_blank')",
-                                class = "btn btn-primary btn-lg",
-                                style = "width: 100%;"
-                            )
-                        ))
-                    )
-                ),
+                  id = "accordion_instructions",
+                  accordionItem(
+                    title = "Detailed Instructions",
+                    status = "info",
+                    collapsed = TRUE,
+                    fluidRow(column(
+                      6,
+                      HTML(
+                        '<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=HmRLfamgtrCYg5Gm&amp;list=PLqdH8O1nalYa4a8JXQ6GbNsH3YQV_aY7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                      ),
+                    ), column(
+                      6,
+                      tags$ol(
+                        tags$li(
+                          "Upload a .zip, .csv, .0, .asp, .jdx, .spc, or .spa file to the upload file tab."
+                        ),
+                        tags$li(
+                          "Process your data using smoothing, derivative, baseline correction, flattening, range selection, and intensity adjustment."
+                        ),
+                        tags$li(
+                          "Identify your spectra using onboard reference libraries and/or AI"
+                        ),
+                        tags$li("Download your results"),
+                        tags$li(
+                          "For more details click the button below for the SOP or watch the detailed instructional videos."
+                        )
+                      ),
+                      a(
+                        "SOP",
+                        onclick = "window.open('https://raw.githack.com/wincowgerDEV/OpenSpecy-package/main/docs/index.html', '_blank')",
+                        class = "btn btn-primary btn-lg",
+                        style = "width: 100%;"
+                      )
+                    ))
+                  )
+                ), 
                 accordion(
                     id = "accordion_links",
                     accordionItem(
@@ -228,8 +230,8 @@ ui <- dashboardPage(
                             href = "https://www.effemm2.de/spectragryph/index.html",
                             "Free desktop application for spectral analysis and links to reference databases.",
                             class = "lead"
-                        )
-                    )
+                         )
+                       )
                 )
             ),
             #Analyze Spectra Tab ----
@@ -243,28 +245,13 @@ ui <- dashboardPage(
                         #tags$label("Upload File"),
                         fluidRow(style = "display: flex; align-items: flex-end;", column(
                             12,
-                            fileInput(
-                                "file",
-                                NULL,
-                                multiple = T,
+                            fileInput("file",NULL,multiple = T,
                                 placeholder = ".csv, .zip, .asp, .jdx, .spc, .spa, .0",
                                 accept = c(
-                                    "text/csv",
-                                    "text/comma-separated-values,text/plain",
-                                    ".csv",
-                                    ".asp",
-                                    ".tsv",
-                                    ".spc",
-                                    ".jdx",
-                                    ".dx",
-                                    ".spa",
-                                    ".0",
-                                    ".zip",
-                                    ".json",
-                                    ".rds",
-                                    ".yml",
-                                    ".hdr",
-                                    ".dat"
+                                  "text/csv","text/comma-separated-values,text/plain",
+                                  ".csv",".asp",".tsv",".spc",".jdx",
+                                  ".dx",".spa",".0",".zip",".json",
+                                  ".rds",".yml",".hdr",".dat"
                                 )
                             ) %>%
                                 bs4Dash::popover(
@@ -733,6 +720,8 @@ ui <- dashboardPage(
                         h4(id = "placeholder1", "Upload some data to get started..."),
                         uiOutput("choice_names"),
                         fluidRow(
+                          column(11, plotlyOutput("heatmapA", inline = TRUE)),
+                          column(1, uiOutput("nav_buttons")),
                             withSpinner(
                                 div(style = "padding-bottom: 0px; margin-bottom: 0px;background-color:black;", 
                                     plotlyOutput("heatmap", inline = TRUE, width = "1600px"))
@@ -943,5 +932,4 @@ ui <- dashboardPage(
             color: white;
             ")
 )
-
 )
