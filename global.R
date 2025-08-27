@@ -51,7 +51,7 @@ theme_black_minimal <- function(base_size = 11, base_family = "") {
 
 # Load all data ----
 load_data <- function() {
-    data("raman_hdpe")
+    raman_hdpe <- readRDS("data/raman_hdpe.rds")
     
     testdata <-  data.table(wavenumber = raman_hdpe$wavenumber, 
                             intensity = raman_hdpe$spectra$intensity)

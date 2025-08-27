@@ -968,7 +968,7 @@ function(input, output, session) {
         filename = function() {if(input$download_selection == "Test Map") {paste0(input$download_selection, human_ts(), ".zip")} else{paste0(input$download_selection, human_ts(), ".csv")}},
         content = function(file) {
             if(input$download_selection == "Test Data") {fwrite(testdata, file)}
-            if(input$download_selection == "Test Map") {file.copy(read_extdata("CA_tiny_map.zip"), file)}
+            if(input$download_selection == "Test Map") {file.copy("data/CA_tiny_map.zip", file)}
             if(input$download_selection == "Your Spectra") {
                 your_spec <- DataR()
                 your_spec$metadata$signal_to_noise <- signal_to_noise()
