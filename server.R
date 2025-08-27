@@ -35,6 +35,7 @@ function(input, output, session) {
   
   preprocessed <- reactiveValues(data = NULL)
   data_click <- reactiveValues(data = NULL)
+  lib_msg <- reactiveVal("")
   
   
   #Read Data ----
@@ -144,78 +145,41 @@ function(input, output, session) {
   })
   
   #The matching library to use.
+  # NOTE: For webR deployments, libraries must be written to the local
+  # 'data/' directory, so keep mode = "w" and path = "data/" in get_lib().
   libraryR <- reactive({
     req(input$active_identification)
-    if (input$id_strategy == "deriv" & input$lib_type == "medoid") {
-      if (file.exists("data/medoid_derivative.rds")) {
-        library <- read_any("data/medoid_derivative.rds")
-      }
-      else{
-        get_lib("medoid_derivative", mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/medoid_derivative.rds")
-      }
-      #return(library)
-    }
-    else if (input$id_strategy == "nobaseline" &
-             input$lib_type == "medoid") {
-      if (file.exists("data/medoid_nobaseline.rds")) {
-        library <- read_any("data/medoid_nobaseline.rds")
-      }
-      else{
-        get_lib("medoid_nobaseline", mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/medoid_nobaseline.rds")
-      }
-    }
-    else if (input$id_strategy == "deriv" &
-             input$lib_type == "model") {
-      if (file.exists("data/model_derivative.rds")) {
-        library <- read_any("data/model_derivative.rds")
-      }
-      else{
-        get_lib("model_derivative", mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/model_derivative.rds")
-      }
-      return(library)
-    }
-    else if (input$id_strategy == "nobaseline" &
-             input$lib_type == "model") {
-      if (file.exists("data/model_nobaseline.rds")) {
-        library <- read_any("data/model_nobaseline.rds")
-      }
-      else{
-        get_lib("model_nobaseline", mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/model_nobaseline.rds")
-      }
-      return(library)
-    }
-    else if (grepl("nobaseline$", input$id_strategy)) {
-      if (file.exists("data/nobaseline.rds")) {
-        library <- read_any("data/nobaseline.rds")
-      }
-      else{
-        get_lib("nobaseline", mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/nobaseline.rds")
-      }
-    }
-    else if (grepl("deriv$", input$id_strategy)) {
-      if (file.exists("data/derivative.rds")) {
-        library <- read_any("data/derivative.rds")
-      }
-      else{
-        get_lib("derivative",mode = "w", path = "data/", aws = TRUE)
-        library <- read_any("data/derivative.rds")
-      }
+    lib <- NULL
+    if (input$id_strategy == "deriv" && input$lib_type == "medoid") {
+      lib <- fetch_lib("medoid_derivative")
+    } else if (input$id_strategy == "nobaseline" &&
+               input$lib_type == "medoid") {
+      lib <- fetch_lib("medoid_nobaseline")
+    } else if (input$id_strategy == "deriv" &&
+               input$lib_type == "model") {
+      lib <- fetch_lib("model_derivative")
+    } else if (input$id_strategy == "nobaseline" &&
+               input$lib_type == "model") {
+      lib <- fetch_lib("model_nobaseline")
+    } else if (grepl("nobaseline$", input$id_strategy)) {
+      lib <- fetch_lib("nobaseline")
+    } else if (grepl("deriv$", input$id_strategy)) {
+      lib <- fetch_lib("derivative")
     }
     if (grepl("^both", input$id_spec_type)) {
-      library
+      result <- lib
+    } else if (grepl("^ftir", input$id_spec_type)) {
+      result <- filter_spec(lib, logic = lib$metadata$spectrum_type == "ftir")
+    } else if (grepl("^raman", input$id_spec_type)) {
+      result <- filter_spec(lib, logic = lib$metadata$spectrum_type == "raman")
+    } else {
+      result <- lib
     }
-    else if (grepl("^ftir", input$id_spec_type)) {
-      filter_spec(library, logic = library$metadata$spectrum_type == "ftir")
-    }
-    else if (grepl("^raman", input$id_spec_type)) {
-      filter_spec(library, logic = library$metadata$spectrum_type == "raman")
-    }
+    if (is.null(result)) lib_msg("Reference library unavailable.") else lib_msg("")
+    result
   })
+
+  output$lib_warning <- renderText(lib_msg())
   
   # Corrects spectral intensity units using the user specified correction
   

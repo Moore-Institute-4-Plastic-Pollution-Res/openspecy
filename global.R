@@ -1,23 +1,30 @@
-library(shiny)
-library(shinyWidgets)
-library(bslib)
-library(caTools)
-library(data.table)
-library(glmnet)
-library(hyperSpec)
-library(mmand)
-library(plotly)
-library(signal)
-library(bs4Dash)
-library(digest)
-library(shinyjs)
-library(dplyr)
-library(shinyBS)
-library(jsonlite)
-library(OpenSpecy)
-library(DT)
+safe_library <- function(pkg) {
+  suppressPackageStartupMessages(
+    tryCatch(library(pkg, character.only = TRUE),
+             error = function(e)
+               warning(sprintf("Package '%s' not available.", pkg)))
+  )
+}
+
+pkgs <- c(
+  "shiny", "shinyWidgets", "bslib", "caTools", "data.table",
+  "glmnet", "hyperSpec", "mmand", "plotly", "signal",
+  "bs4Dash", "digest", "shinyjs", "dplyr", "shinyBS",
+  "jsonlite", "OpenSpecy", "DT"
+)
+
+vapply(pkgs, safe_library, logical(1))
 
 lapply(list.files("R", full.names = TRUE), source)
+
+fetch_lib <- function(name) {
+  path <- file.path("data", paste0(name, ".rds"))
+  if (!file.exists(path)) {
+    try(get_lib(name, mode = "w", path = "data/", aws = TRUE),
+        silent = TRUE)
+  }
+  if (file.exists(path)) read_any(path) else NULL
+}
 
 
 load_data <- function() {

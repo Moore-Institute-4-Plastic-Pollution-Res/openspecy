@@ -70,6 +70,7 @@ ui <- dashboardPage(
             tags$link(rel = "icon", type = "image/png", href = "favicon.png")
             #This is for the error messages.
         ),
+        div(style = "color:red;", textOutput("lib_warning")),
         tabItems(
             # About Tab ----
             tabItem(

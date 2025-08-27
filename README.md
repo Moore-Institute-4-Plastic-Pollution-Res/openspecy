@@ -40,6 +40,9 @@ If you are looking for a previous version of the OpenSpecy web application, you 
 
 Last updated on [03/21/2024](https://rawcdn.githack.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy/0c43f59813850ddaa6ade8c0bc41e8e4f10a3bbc/docs/index.html)
 
+## Deployment
+For shinylive/webR builds, reference libraries must be written to a local `data/` directory, so keep `mode = "w"` and `path = "data/"` in any `get_lib()` calls.
+
 
 
 
