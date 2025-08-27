@@ -1,15 +1,64 @@
-ui <- dashboardPage(
-    dark = TRUE,
-    help = TRUE,
-    fullscreen = TRUE,
-    dashboardHeader(
-        title = tags$a(
-            href = "https://www.openanalysis.org",
-            target = "_blank",
-            tags$img(src = "logo.png", style = 'width: 15vw; padding:1rem;'),
-            tags$head(
-                HTML(
-                    '<div class = "dark raised" data-ea-publisher="openanalysisorg" data-ea-type="image" data-ea-style="stickybox" id = "openspecweba"></div>'
+
+# UI ----
+dashboardPage(dark = T, 
+              help = T, 
+              fullscreen = T,
+        #Header ----
+        dashboardHeader( 
+            title = tags$a(href="https://www.openanalysis.org", 
+                           target="_blank",
+                        tags$img(src = "logo.png", 
+                                 style = 'width: 15vw; padding:1rem;'),
+                        tags$head(
+                            HTML(
+                                '<div class = "dark raised" data-ea-publisher="openanalysisorg" data-ea-type="image" data-ea-style="stickybox" id = "openspecweba"></div>'
+                            )
+                        ), 
+                        tags$head(
+                            tags$link(rel = "stylesheet",
+                                      href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css")
+                        )
+                        ), 
+            tags$li(
+                class = "dropdown",
+                style = "list-style-type: none;",
+                tags$a(
+                    paste0("Last Updated: ",Sys.Date()),
+                    href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy?tab=readme-ov-file#version-history",
+                    target = "_blank",
+                    title = "Click here to view older versions of this app",
+                    style = "font-size: 19px;text-decoration: none;"
+                     )
+                )
+            ),
+        #Sidebar ----
+        dashboardSidebar(
+            skin = "dark",
+            sidebarUserPanel(
+                name = "Welcome!"
+            ),
+            sidebarMenu(
+                id = "sidebarmenu",
+                menuItem(
+                    "Analyze Spectra",
+                    tabName = "analyze",
+                    icon = icon("bar-chart")
+                ),
+                menuItem(
+                    "About",
+                    tabName = "about",
+                    icon = icon("sliders-h")
+                ),
+                menuItem(
+                    "Partner With Us",
+                    tabName = "partner",
+                    icon = icon("hands-helping")
+                ),
+                menuItem(
+                    "Contract Us",
+                    tabName = "contract",
+                    icon = icon("file-contract")
+
                 )
             )
         ),
@@ -88,23 +137,21 @@ ui <- dashboardPage(
                                researchers from around the world who are part of
                                the Open Specy community by
                                analyzing, sharing, processing, and identifying
-                               their Raman and IR spectra."
-                            ),
-                            p(
-                                class = "lead",
-                                HTML(
-                                    "<span style='position: relative; top:.6ex;'><a
-                                      href='https://twitter.com/OpenSpecy?ref_src=twsrc%5Etfw'
-                                      class='twitter-follow-button' data-size='large' data-dnt='true'
-                                      data-show-count='false'>
-                                      Follow @OpenSpecy</a></span>
-                                      on Twitter"
-                                )
-                            ),
-                            p(
-                                class = "lead",
-                                HTML(
-                                    "<span style='position: relative; top:.8ex;'><a
+                               their Raman and IR spectra."),
+                                  p(class = "lead",
+                                    tags$span(style = "position:relative; top:.8ex;",
+                                              tags$a(
+                                                  href   = "https://www.linkedin.com/in/win-cowger/",
+                                                  target = "_blank",                   # open in new tab
+                                                  class  = "linkedin-button",          # custom CSS (below)
+                                                  icon("linkedin", class = "fa-2x")    # larger icon
+                                              )
+                                    ),
+                                    "Follow Win on LinkedIn for Latest Updates"
+                                  ),
+                               p(class = "lead",
+                                 HTML("<span style='position: relative; top:.8ex;'><a
+
                                     class='github-button' href='https://github.com/wincowgerDEV/OpenSpecy/subscription'
                                     data-color-scheme='no-preference: dark; light: dark; dark: dark;'
                                     data-size='large' aria-label='Watch wincowgerDEV/OpenSpecy'>Watch</a></span>
@@ -179,55 +226,33 @@ ui <- dashboardPage(
                                 class = "btn btn-primary btn-lg",
                                 style = "width: 100%;"
                             )
-                        ))
-                    )
-                ),
-                accordion(
-                    id = "accordion_links",
-                    accordionItem(
-                        title = "Useful Links",
-                        status = "info",
-                        collapsed = TRUE,
-                        a(
-                            href = "https://simple-plastics.eu/",
-                            "Free FTIR Software: siMPle microplastic IR spectral identification software",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://gitlab.ipfdd.de/GEPARD/gepard",
-                            "Free Raman and FTIR Software: GEPARD (Gepard-Enabled PARticle Detection for Raman microscopes) Designed for particle-based microplastic analysis",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://molview.org/",
-                            "Free chemical modeling tool with built in spectral query, MolView.",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://webbook.nist.gov/",
-                            "Free spectroscopy and chemical database NIST Chemistry WebBook",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://www.thermofisher.com/us/en/home/industrial/spectroscopy-elemental-isotope-analysis/spectroscopy-elemental-isotope-analysis-learning-center/molecular-spectroscopy-information.html",
-                            "Free Spectroscopy Learning Academy from ThermoFisher",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://micro.magnet.fsu.edu/primer/",
-                            "Free Optical Microscopy Learning Resource from Florida State University",
-                            class = "lead"
-                        ),
-                        br(),
-                        a(
-                            href = "https://www.effemm2.de/spectragryph/index.html",
-                            "Free desktop application for spectral analysis and links to reference databases.",
-                            class = "lead"
+                         )
+                       ),
+                   accordion(
+                       id = "accordion_instructions",
+                       accordionItem(
+                           title = "Detailed Instructions",
+                           status = "info",
+                           collapsed = TRUE,
+                         fluidRow(
+                           column(6,
+                                  HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=HmRLfamgtrCYg5Gm&amp;list=PLqdH8O1nalYa4a8JXQ6GbNsH3YQV_aY7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'),
+                           ),
+                           column(6,
+                                  tags$ol(
+                                  tags$li("Upload a .zip, .csv, .0, .asp, .jdx, .spc, or .spa file to the upload file tab."),
+                                  tags$li("Process your data using smoothing, derivative, baseline correction, flattening, range selection, and intensity adjustment."),
+                                  tags$li("Identify your spectra using onboard reference libraries and/or AI"),
+                                  tags$li("Download your results"),
+                                  tags$li("For more details click the button below for the SOP or watch the detailed instructional videos.")
+                                  ),
+                                  a("SOP",
+                                    onclick = "window.open('https://raw.githack.com/wincowgerDEV/OpenSpecy-package/main/docs/index.html', '_blank')",
+                                    class="btn btn-primary btn-lg", 
+                                    style = "width: 100%;")
+                           )
+                         )
+
                         )
                     )
                 )
@@ -655,122 +680,108 @@ ui <- dashboardPage(
                                                                                     Library Transformation determines how the library is transformed and should be in line
                                                                                     with how you choose to process your spectra. Derivative will search against a derivative transformed library.
                                                                                     No Baseline will search against a baseline corrected library. Library Type will determine the approach
-                                                                                    used to identify the spectra. Full (only available through R) will search all available libraries and will be slower but more accurate.
-                                                                                    Medoid will only search library spectra that have been identified as critical to search. Multinomial will use a multinomial regression to identify the spectra.
-                                                                                    Correlation thresholding will set the minimum
-                                                                                    value from matching to use as a 'confident identification' and is typically set to 0.7 but may be different depending on your needs."
-                                ),
-                                title = prettySwitch(
-                                    inputId = "active_identification",
-                                    label = "Identification",
-                                    inline = T,
-                                    value = F,
-                                    status = "success",
-                                    fill = T
-                                ),
-                                pickerInput(
-                                    inputId = "id_spec_type",
-                                    label =  "Spectrum Type",
-                                    choices =  c(
-                                        "Both" = "both",
-                                        "FTIR" = "ftir",
-                                        "Raman" = "raman"
-                                    )
-                                ),
-                                pickerInput(
-                                    inputId = "id_strategy",
-                                    label =  "Library Transformation",
-                                    choices =  c("Derivative" = "deriv", "No Baseline" = "nobaseline")
-                                ),
-                                pickerInput(
-                                    inputId = "lib_type",
-                                    label =  "Library Type",
-                                    choices =  c(
-                                        "Full" = "full",
-                                        "Medoid" = "medoid",
-                                        "Multinomial" = "model"
-                                    )
-                                ),
-                                fluidRow(
-                                    box(
-                                        width = 12,
-                                        collapsed = T,
-                                        title = prettySwitch(
-                                            "cor_threshold_decision",
-                                            label = "Threshold Correlation",
-                                            inline = T,
-                                            value = T,
-                                            status = "success",
-                                            fill = T
-                                        ),
-                                        numericInput(
-                                            "MinCor",
-                                            "Minimum Value",
-                                            value = 0.7,
-                                            min = 0,
-                                            max = 1,
-                                            step = 0.1#,
-                                            #width = '25%'
-                                        ),
-                                        plotOutput("cor_plot", height = "10vh")
-                                        
-                                    )
-                                )
-                            )
-                        ))
-                    )),
-                    column(2, uiOutput("download_ui"), uiOutput("top_n"))
-                ),
-                ## Plot ----
-                fluidRow(
-                    #verbatimTextOutput("event_test"),
-                    box(
-                        title = HTML(paste0("Spectra")),
-                        maximizable = T,
-                        width = 12,
-                        #background = "black",
-                        label = uiOutput("correlation_head"),
-                        h4(id = "placeholder1", "Upload some data to get started..."),
-                        uiOutput("choice_names"),
-                        fluidRow(
-                            withSpinner(
-                                div(style = "padding-bottom: 0px; margin-bottom: 0px;background-color:black;", 
-                                    plotlyOutput("heatmap", inline = TRUE, width = "1600px"))
-                        ),
-                            withSpinner(
-                                div(style = "padding-top: 0px; margin-top: 0px; background-color:black;",
-                                plotlyOutput("MyPlotC", inline = T, width = "1600px"))),
-                            div(style = "overflow-x: scroll", DT::dataTableOutput("eventmetadata"))
-                        ),
-                        sidebar = boxSidebar(
-                            id = "mycardsidebar",
-                            fluidRow(style = "padding:1rem; overflow-x: scroll", DT::dataTableOutput("event"))
-                        )
-                    )
-                ),
-                uiOutput("progress_bars")
-            ),
-            tabItem(
-                "partner",
-                #Partner With Us tab ----
-                titlePanel(h4(
-                    "Help us reach our goal to revolutionize spectroscopy."
-                )),
-                br(),
-                accordion(
-                    id = "accordion_partners",
-                    accordionItem(
-                        title = "Partners",
-                        status = "info",
-                        collapsed = T,
-                        fluidRow(column(
-                            6,
-                            h3("Monetary Partners"),
-                            panel(
-                                style = "align: centre",
-                                div(
-                                    class = "jumbotron",
-                                    style = "padding:0rem 1rem 0rem;
+                                                                                    used to identify the spectra. Full (only available through R) will search all available libraries and will be slower but more accurate. 
+                                                                                    Medoid will only search library spectra that have been identified as critical to search. Multinomial will use a multinomial regression to identify the spectra. 
+                                                                                    Correlation thresholding will set the minimum 
+                                                                                    value from matching to use as a 'confident identification' and is typically set to 0.7 but may be different depending on your needs."),
+                                                                                    title = prettySwitch(inputId = "active_identification",
+                                                                                                    label = "Identification",
+                                                                                                    inline = T,
+                                                                                                    value = F,
+                                                                                                    status = "success",
+                                                                                                    fill = T),
+                                                                                    pickerInput(inputId = "id_spec_type", label =  "Spectrum Type",
+                                                                                                choices =  c("Both" = "both",
+                                                                                                             "FTIR" = "ftir",
+                                                                                                             "Raman" = "raman")),
+                                                                                    pickerInput(inputId = "id_strategy", label =  "Library Transformation",
+                                                                                                        choices =  c("Derivative" = "deriv",
+                                                                                                                     "No Baseline" = "nobaseline")),
+                                                                                    pickerInput(inputId = "lib_type", label =  "Library Type",
+                                                                                                choices =  c("Full" = "full",
+                                                                                                             "Medoid" = "medoid",
+                                                                                                             "Multinomial" = "model")),
+                                                                                    fluidRow(
+                                                                                        box(width = 12, 
+                                                                                            collapsed = T,
+                                                                                            title = prettySwitch("cor_threshold_decision",
+                                                                                                                 label = "Threshold Correlation",
+                                                                                                                 inline = T,
+                                                                                                                 value = T,
+                                                                                                                 status = "success",
+                                                                                                                 fill = T), 
+                                                                                            numericInput(
+                                                                                                "MinCor",
+                                                                                                "Minimum Value",
+                                                                                                value = 0.7,
+                                                                                                min = 0,
+                                                                                                max = 1,
+                                                                                                step = 0.1#,
+                                                                                                #width = '25%'
+                                                                                            ),
+                                                                                            plotOutput("cor_plot", height = "10vh")
+                                                                                            
+                                                                                        )
+                                                                                    )
+                                                                             )  
+                                                            )
+                                                     ))),
+                           column(2,
+                                  uiOutput("download_ui"),
+                                  uiOutput("top_n")
+                           )
+                           ),
+                          ## Plot ----
+                          fluidRow(
+                              #verbatimTextOutput("event_test"),
+                              box(title = HTML(paste0("Spectra")), 
+                                  maximizable = T,
+                                  width = 12,
+                                  #background = "black",
+                                  label = uiOutput("correlation_head"),
+                                  h4(id = "placeholder1", "Upload some data to get started..."),
+                                  uiOutput("choice_names"),
+                                  fluidRow(
+                                      column(11, plotlyOutput("heatmapA", inline = TRUE)),
+                                      column(1, uiOutput("nav_buttons"))
+                                  ),
+                                  plotlyOutput("MyPlotC", inline = TRUE),
+                                  div(style = "overflow-x: scroll",
+                                      DT::dataTableOutput("eventmetadata")
+                                  ),
+                                  sidebar = boxSidebar(
+                                      id = "mycardsidebar",
+                                      tabsetPanel(
+                                          id = "sidebar_tables",
+                                          tabPanel("Library Matches",
+                                                   fluidRow(style = "padding:1rem; overflow-x: scroll",
+                                                            DT::dataTableOutput("event"))),
+                                          tabPanel("Uploaded Metadata",
+                                                   fluidRow(style = "padding:1rem; overflow-x: scroll",
+                                                            DT::dataTableOutput("sidebar_metadata")))
+                                      )
+                                  )
+                              )
+                          ),
+                      uiOutput("progress_bars")
+                      ),
+              tabItem("partner", 
+                      #Partner With Us tab ----
+                               titlePanel(h4("Help us reach our goal to revolutionize spectroscopy.")),
+                               br(),
+                      accordion(
+                          id = "accordion_partners",
+                          accordionItem(
+                              title = "Partners",
+                              status = "info",
+                              collapsed = T,
+                              fluidRow(
+                                  column(6,
+                                         h3("Monetary Partners"),
+                                         panel(style = "align: centre",
+                                               div(class = "jumbotron",
+                                                   style = "padding:0rem 1rem 0rem;
+
                                border:solid #f7f7f9;
                                background-color:rgb(205, 127, 50, 0.5)",
                                     h3("Thriving (10,000–100,000$)"),
@@ -936,12 +947,13 @@ ui <- dashboardPage(
     ),
     
     #Footer ----
-    tags$footer(citation,
-                style = "
-            padding: 10px;
-            background-color: #363e45;
-            color: white;
-            ")
-)
-
+    footer = dashboardFooter(
+        left = p(citation),
+        right = HTML(paste0(uiOutput("translate"), 
+                       a(href = "TOS.txt", "Terms And Conditions", class = "lead"),
+                       br(),
+                       a(href = "privacy_policy.txt", "Privacy Policy", class = "lead")
+                       )
+        )
+    )
 )

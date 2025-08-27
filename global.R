@@ -17,8 +17,6 @@ library(jsonlite)
 library(OpenSpecy)
 library(DT)
 
-lapply(list.files("R", full.names = TRUE), source)
-
 
 load_data <- function() {
   data("raman_hdpe")
@@ -28,6 +26,18 @@ load_data <- function() {
   # Inject variables into the parent environment
   invisible(list2env(as.list(environment()), parent.frame()))
 }
+
+
+version <- paste0("Open Specy v", packageVersion("OpenSpecy"))
+citation <- HTML(
+  'Cowger, W., Karapetrova, A., Lincoln, C., Chamas, A., Sherrod, H., Leong, N., Lasdin, K. S., 
+  Knauss, C., Teofilović, V., Arienzo, M. M., Steinmetz, Z., Primpke, S., 
+  Darjany, L., Murphy-Hagan, C., Moore, S., Moore, C., Lattin, G., 
+  Gray, A., Kozloski, R., Bryksa, J., Maurer, B. (2025). 
+  "Open Specy 1.0: Automated (Hyper)spectroscopy for Microplastics." 
+  <i>Analytical Chemistry.</i> doi:
+  <a href="https://doi.org/10.1021/acs.analchem.5c00962">10.1021/acs.analchem.5c00962</a>.'
+)
 
 
 # Workaround for Chromium Issue 468227
@@ -60,11 +70,3 @@ theme_black_minimal <- function(base_size = 11, base_family = "") {
       strip.text = element_text(color = "white")
     )
 }
-
-# # Name keys for human readable column names ----
-citation <- 
-  HTML("Cowger W, Steinmetz Z, Gray A, Munno K, Lynch J, Hapich H, Primpke S, De
-  Frond H, Rochman C, Herodotou O (2021). “Microplastic Spectral
-  Classification Needs an Open Source Community: Open Specy to the Rescue!”
-  <i>Analytical Chemistry</i>, <b>93</b>(21), 7543–7548. doi:
-  <a href='https://doi.org/10.1021/acs.analchem.1c00123'>10.1021/acs.analchem.1c00123</a>.")
