@@ -10,6 +10,7 @@ is_shinylive <- isTRUE(getOption("shinylive.enabled", FALSE))
 # real loads — all webR-safe
 library(shiny); library(bs4Dash); library(bslib)
 library(shinyWidgets); library(shinyjs); library(DT); library(plotly); library(jsonlite)
+library(magrittr); library(dplyr); library(scales); library(reshape2); library(digest)
 
 # force Shinylive to bundle these (even if you don't call ggplotly yet)
 # if (FALSE) {
@@ -18,11 +19,15 @@ library(shinyWidgets); library(shinyjs); library(DT); library(plotly); library(j
 # }
 # 
 # # DO NOT load native/unsupported pkgs in Shinylive
- if (!is_shinylive) {
-      library(glmnet); library(hyperSpec); library(mmand); library(signal)
-      library(caTools); library(data.table); library(OpenSpecy)
-      library(ggplot2); library(munsell) 
- }
+if (!is_shinylive) {
+     library(glmnet); library(hyperSpec); library(mmand); library(signal)
+     library(caTools); library(data.table); library(OpenSpecy)
+     library(ggplot2); library(munsell)
+} else {
+     # Attempt to load packages available in webR and source OpenSpecy functions
+     try(library(data.table), silent = TRUE)
+     lapply(list.files("R", pattern = "\\.R$", full.names = TRUE), source)
+}
 
 
 # Define the custom theme
@@ -52,10 +57,10 @@ theme_black_minimal <- function(base_size = 11, base_family = "") {
 # Load all data ----
 load_data <- function() {
     raman_hdpe <- readRDS("data/raman_hdpe.rds")
-    
-    testdata <-  data.table(wavenumber = raman_hdpe$wavenumber, 
+
+    testdata <-  data.frame(wavenumber = raman_hdpe$wavenumber,
                             intensity = raman_hdpe$spectra$intensity)
-    
+
     # Inject variables into the parent environment
     invisible(list2env(as.list(environment()), parent.frame()))
 }
@@ -79,13 +84,3 @@ citation <- HTML(
   <i>Analytical Chemistry.</i> doi:
   <a href="https://doi.org/10.1021/acs.analchem.5c00962">10.1021/acs.analchem.5c00962</a>.'
 )
-
-
-# Workaround for Chromium Issue 468227
-downloadButton <- function(...) {
-    tag <- shiny::downloadButton(...)
-    tag$attribs$download <- NULL
-    tag
-}
-
-

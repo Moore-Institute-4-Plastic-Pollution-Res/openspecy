@@ -1091,7 +1091,11 @@ function(input, output, session) {
             #user_name = input$fingerprint,
             time = human_ts(),
             session_name = session_id,
-            data_id = digest::digest(preprocessed$data, algo = "md5"),
+            data_id = if (requireNamespace("digest", quietly = TRUE)) {
+                digest::digest(preprocessed$data, algo = "md5")
+            } else {
+                NA_character_
+            },
             active = input$active_preprocessing,
             adj_intens = input$intensity_decision,
             type = input$intensity_corr,

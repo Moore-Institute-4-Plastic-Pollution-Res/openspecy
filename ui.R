@@ -1,6 +1,6 @@
 
 # UI ----
-dashboardPage(
+ui <- dashboardPage(
               dark = TRUE, 
               help = TRUE, 
               fullscreen = TRUE,
@@ -13,7 +13,7 @@ dashboardPage(
                                  tags$head(
                                      HTML(
                                          '<div class = "dark raised" data-ea-publisher="openanalysisorg" data-ea-type="image" data-ea-style="stickybox" id = "openspecweba"></div>'
-                                     )
+  )
                                  ), 
                                  tags$head(
                                      tags$link(rel = "stylesheet",
