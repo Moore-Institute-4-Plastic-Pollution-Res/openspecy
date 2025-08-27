@@ -1,8 +1,9 @@
 
 # UI ----
-dashboardPage(dark = T, 
-              help = T, 
-              fullscreen = T,
+dashboardPage(
+              dark = TRUE, 
+              help = TRUE, 
+              fullscreen = TRUE,
               #Header ----
               dashboardHeader( 
                   title = tags$a(href="https://www.openanalysis.org", 
@@ -33,7 +34,6 @@ dashboardPage(dark = T,
               ),
               #Sidebar ----
               dashboardSidebar(
-                  skin = "dark",
                   sidebarUserPanel(
                       name = "Welcome!"
                   ),
@@ -700,16 +700,14 @@ dashboardPage(dark = T,
                               
                       )
                   )
-              ),
-              
-              #Footer ----
-              footer = dashboardFooter(
-                  left = p(citation),
-                  right = HTML(paste0(uiOutput("translate"), 
-                                      a(href = "TOS.txt", "Terms And Conditions", class = "lead"),
-                                      br(),
-                                      a(href = "privacy_policy.txt", "Privacy Policy", class = "lead")
-                  )
-                  )
-              )
+                  
+        ),
+        #Footer ----
+        footer = bs4Dash::dashboardFooter(
+            left  = htmltools::p(citation),
+            right = htmltools::tagList(
+                tags$a(href = "TOS.txt", "Terms And Conditions"), tags$br(),
+                tags$a(href = "privacy_policy.txt", "Privacy Policy")
+            )
+        )    
 )
