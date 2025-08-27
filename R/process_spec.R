@@ -11,7 +11,7 @@
 #' If \code{FALSE}, the original data will be returned.
 #' @param adj_intens logical; describing whether to adjust the intensity units.
 #' @param adj_intens_args named list of arguments passed to
-#' \code{\link{smooth_intens}()}.
+#' \code{\link{adj_intens}()}.
 #' @param conform_spec logical; whether to conform the spectra to a new
 #' wavenumber range and resolution.
 #' @param conform_spec_args named list of arguments passed to
@@ -54,7 +54,7 @@
 #'              subtr_baseline = TRUE,
 #'              subtr_baseline_args = list(type = "polynomial",
 #'                                         polynomial = 8)) |>
-#'   lines(col = "darkred")
+#'   plot()
 #'
 #' # Process spectra with smoothing and derivative
 #' process_spec(raman_hdpe,
@@ -65,7 +65,7 @@
 #'                derivative = 1
 #'                )
 #'              ) |>
-#'   lines(col = "darkgreen")
+#'   plot()
 #'
 #' @export
 process_spec <- function(x, ...) {
@@ -119,12 +119,12 @@ process_spec.OpenSpecy <- function(x, active = TRUE,
     if(restrict_range)
       x <- do.call("restrict_range", c(list(x, make_rel = F),
                                        restrict_range_args))
+    if(flatten_range)
+        x <- do.call("flatten_range", c(list(x, make_rel = F),
+                                        flatten_range_args))
     if(subtr_baseline)
       x <- do.call("subtr_baseline", c(list(x, make_rel = F),
                                        subtr_baseline_args))
-    if(flatten_range)
-      x <- do.call("flatten_range", c(list(x, make_rel = F),
-                                      flatten_range_args))
     if(smooth_intens)
       x <- do.call("smooth_intens", c(list(x, make_rel = F),
                                       smooth_intens_args))

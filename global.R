@@ -1,19 +1,28 @@
-safe_library <- function(pkg) {
-  suppressPackageStartupMessages(
-    tryCatch(library(pkg, character.only = TRUE),
-             error = function(e)
-               warning(sprintf("Package '%s' not available.", pkg)))
-  )
+# Check for Auth Tokens and setup, you can change these to test the triggering
+# of functions without removing the files.
+#translate <- file.exists("www/googletranslate.html")
+
+#remotes::install_github("wincowgerDEV/OpenSpecy-package@vignettes")
+
+# global.R (top)
+is_shinylive <- isTRUE(getOption("shinylive.enabled", FALSE))
+
+# real loads — all webR-safe
+library(shiny); library(bs4Dash); library(bslib)
+library(shinyWidgets); library(shinyjs); library(DT); library(plotly); library(jsonlite)
+
+# force Shinylive to bundle these (even if you don't call ggplotly yet)
+# if (FALSE) {
+#     library(ggplot2)
+#     library(munsell)   # ggplot2 depends on it; explicit keeps the bundler honest
+# }
+# 
+# # DO NOT load native/unsupported pkgs in Shinylive
+if (!is_shinylive) {
+      library(glmnet); library(hyperSpec); library(mmand); library(signal)
+      library(caTools); library(data.table); library(OpenSpecy)
+      library(ggplot2); library(munsell)
 }
-
-pkgs <- c(
-  "shiny", "shinyWidgets", "bslib", "caTools", "data.table",
-  "glmnet", "hyperSpec", "mmand", "plotly", "signal",
-  "bs4Dash", "digest", "shinyjs", "dplyr", "shinyBS",
-  "jsonlite", "OpenSpecy", "DT"
-)
-
-vapply(pkgs, safe_library, logical(1))
 
 lapply(list.files("R", full.names = TRUE), source)
 
@@ -27,51 +36,57 @@ fetch_lib <- function(name) {
 }
 
 
-load_data <- function() {
-  data("raman_hdpe")
-  testdata <- data.table(wavenumber = raman_hdpe$wavenumber,
-                         intensity = raman_hdpe$spectra$intensity)
-  
-  # Inject variables into the parent environment
-  invisible(list2env(as.list(environment()), parent.frame()))
+# Define the custom theme
+theme_black_minimal <- function(base_size = 11, base_family = "") {
+    theme_minimal(base_size = base_size, base_family = base_family) +
+        theme(
+            plot.background = element_rect(fill = "black", color = NA),
+            panel.background = element_rect(fill = "black", color = NA),
+            panel.grid.major = element_line(color = "white"),
+            panel.grid.minor = element_line(color = "white"),
+            axis.line = element_line(color = "white"),
+            axis.ticks = element_line(color = "white"),
+            axis.text = element_text(color = "white"),
+            axis.title = element_text(color = "white"),
+            plot.title = element_text(color = "white", hjust = 0.5),
+            plot.subtitle = element_text(color = "white", hjust = 0.5),
+            plot.caption = element_text(color = "white"),
+            legend.text = element_text(color = "white"),
+            legend.title = element_text(color = "white"),
+            legend.background = element_rect(fill = "black"),
+            legend.key = element_rect(fill = "black"),
+            strip.background = element_rect(fill = "black", color = NA),
+            strip.text = element_text(color = "white")
+        )
 }
 
+# Load all data ----
+load_data <- function() {
+    raman_hdpe <- readRDS("data/raman_hdpe.rds")
+    
+    testdata <-  data.table(wavenumber = raman_hdpe$wavenumber, 
+                            intensity = raman_hdpe$spectra$intensity)
+    
+    # Inject variables into the parent environment
+    invisible(list2env(as.list(environment()), parent.frame()))
+}
 
 # Workaround for Chromium Issue 468227
 downloadButton <- function(...) {
-  tag <- shiny::downloadButton(...)
-  tag$attribs$download <- NULL
-  tag
+    tag <- shiny::downloadButton(...)
+    tag$attribs$download <- NULL
+    tag
 }
 
-# Define the custom theme
-theme_black_minimal <- function(base_size = 11, base_family = "") {
-  theme_minimal(base_size = base_size, base_family = base_family) +
-    theme(
-      plot.background = element_rect(fill = "black", color = NA),
-      panel.background = element_rect(fill = "black", color = NA),
-      panel.grid.major = element_line(color = "white"),
-      panel.grid.minor = element_line(color = "white"),
-      axis.line = element_line(color = "white"),
-      axis.ticks = element_line(color = "white"),
-      axis.text = element_text(color = "white"),
-      axis.title = element_text(color = "white"),
-      plot.title = element_text(color = "white", hjust = 0.5),
-      plot.subtitle = element_text(color = "white", hjust = 0.5),
-      plot.caption = element_text(color = "white"),
-      legend.text = element_text(color = "white"),
-      legend.title = element_text(color = "white"),
-      legend.background = element_rect(fill = "black"),
-      legend.key = element_rect(fill = "black"),
-      strip.background = element_rect(fill = "black", color = NA),
-      strip.text = element_text(color = "white")
-    )
-}
+# Name keys for human readable column names ----
 
-# # Name keys for human readable column names ----
-citation <- 
-  HTML("Cowger W, Steinmetz Z, Gray A, Munno K, Lynch J, Hapich H, Primpke S, De
-  Frond H, Rochman C, Herodotou O (2021). “Microplastic Spectral
-  Classification Needs an Open Source Community: Open Specy to the Rescue!”
-  <i>Analytical Chemistry</i>, <b>93</b>(21), 7543–7548. doi:
-  <a href='https://doi.org/10.1021/acs.analchem.1c00123'>10.1021/acs.analchem.1c00123</a>.")
+version <- paste0("Open Specy v 1.5")#, packageVersion("OpenSpecy"))
+citation <- HTML(
+    'Cowger, W., Karapetrova, A., Lincoln, C., Chamas, A., Sherrod, H., Leong, N., Lasdin, K. S., 
+  Knauss, C., Teofilović, V., Arienzo, M. M., Steinmetz, Z., Primpke, S., 
+  Darjany, L., Murphy-Hagan, C., Moore, S., Moore, C., Lattin, G., 
+  Gray, A., Kozloski, R., Bryksa, J., Maurer, B. (2025). 
+  "Open Specy 1.0: Automated (Hyper)spectroscopy for Microplastics." 
+  <i>Analytical Chemistry.</i> doi:
+  <a href="https://doi.org/10.1021/acs.analchem.5c00962">10.1021/acs.analchem.5c00962</a>.'
+)
