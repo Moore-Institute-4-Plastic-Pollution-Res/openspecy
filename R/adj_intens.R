@@ -58,28 +58,28 @@ adj_intens.default <- function(x,
                                make_rel = TRUE,
                                log_exp = "none", 
                                ...) {
-    
-    if(!type %in% c("none", "transmittance", "reflectance"))
-        stop('type argument must be one of "none", "transmittance", or "reflectance"')
-    
-    if(!log_exp %in% c("none", "log", "exp"))
-        stop('log argument must be one of "none", "log", or "exp"')
-
-    adj <- switch(type,
-                  "reflectance" = (1 - x/100)^2 / (2 * x/100),
-                  "transmittance" = log(1/adj_neg(x, ...)),
-                  "none" = x
-    )
-    
-    adj <- switch(log_exp,
-                  "log" = log(adj),
-                  "exp" = exp(adj),
-                  "none" = adj
-    )
-    
-    if (make_rel) adj <- make_rel(adj) 
-    
-    return(adj)
+  
+  if(!type %in% c("none", "transmittance", "reflectance"))
+    stop('type argument must be one of "none", "transmittance", or "reflectance"')
+  
+  if(!log_exp %in% c("none", "log", "exp"))
+    stop('log argument must be one of "none", "log", or "exp"')
+  
+  adj <- switch(type,
+                "reflectance" = (1 - x/100)^2 / (2 * x/100),
+                "transmittance" = log(1/adj_neg(x, ...)),
+                "none" = x
+  )
+  
+  adj <- switch(log_exp,
+                "log" = log(adj),
+                "exp" = exp(adj),
+                "none" = adj
+  )
+  
+  if (make_rel) adj <- make_rel(adj) 
+  
+  return(adj)
 }
 
 #' @rdname adj_intens
@@ -90,11 +90,11 @@ adj_intens.OpenSpecy <- function(x,
                                  make_rel = TRUE,
                                  log_exp = "none", 
                                  ...) {
-
+  
   x$spectra <- x$spectra[, lapply(.SD, adj_intens, type = type, 
                                   make_rel = make_rel,
                                   log_exp = log_exp, 
                                   ...)] 
-
+  
   return(x)
 }

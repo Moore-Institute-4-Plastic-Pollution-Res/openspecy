@@ -50,7 +50,7 @@ read_any <- function(file, c_spec = T,
   else if(length(file) > 1){
     os <- read_many(file = file, ...)
     if(c_spec & !is_OpenSpecy(os) & is.list(os)){
-        os <- do.call("c_spec", c(list(os), c_spec_args))
+      os <- do.call("c_spec", c(list(os), c_spec_args))
     }
   }
   else if(any(grepl("(\\.dat$)|(\\.img$)", ignore.case = T, file))){
@@ -59,7 +59,7 @@ read_any <- function(file, c_spec = T,
   else if (grepl("(\\.zip$)", ignore.case = T, file)) {
     os <- read_zip(file = file, ...)
     if(c_spec & !is_OpenSpecy(os) & is.list(os)){
-        os <- do.call("c_spec", c(list(os), c_spec_args))
+      os <- do.call("c_spec", c(list(os), c_spec_args))
     }
   }
   else if (grepl("(\\.xyz$)|(\\.csv$)|(\\.tsv$)|(\\.txt$)", ignore.case = T, file)) {
@@ -92,24 +92,24 @@ read_many <- function(file, ...) {
 read_zip <- function(file, ...) {
   flst <- unzip(zipfile = file, list = T)$Name
   flst <- flst[!grepl("_MACOSX", flst)]
-
+  
   tmp <- file.path(tempdir(), "OpenSpecy-unzip")
   dir.create(tmp, showWarnings = F)
-
+  
   unzip(file, exdir = tmp)
-
+  
   flst <- file.path(tmp, flst)
-
+  
   if(length(flst) == 2 & any(grepl("\\.dat$", ignore.case = T, flst)) &
      any(grepl("\\.hdr$", ignore.case = T, flst))) {
     dat <- flst[grepl("\\.dat$", ignore.case = T, flst)]
     hdr <- flst[grepl("\\.hdr$", ignore.case = T, flst)]
-
+    
     os <- read_envi(dat, hdr, ...)
   } else {
     os <- read_many(flst,  ...)
   }
-
+  
   unlink(tmp, recursive = T)
   return(os)
 }
