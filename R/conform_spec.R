@@ -58,9 +58,9 @@ conform_spec.OpenSpecy <- function(x, range = NULL, res = 5, allow_na = F,
                                    ...) {
   if(!any(type %in% c("interp", "roll", "mean_up")))
     stop("type must be either 'interp', 'roll', or 'mean_up'")
-
+  
   raw_wave = x$wavenumber
-    
+  
   if(is.null(range)) range <- raw_wave
 
   if(!is.null(res)) {
@@ -72,9 +72,9 @@ conform_spec.OpenSpecy <- function(x, range = NULL, res = 5, allow_na = F,
     wn <- range[range >= min(raw_wave) & range <= max(raw_wave)]
   }
 
-  if(type == "interp")
-    spec <- x$spectra[, lapply(.SD, function(y){.conform_intens(x = raw_wave, y = y,
-                               xout = wn, ...)})]
+  if (type == "interp")
+    spec <- x$spectra[, lapply(.SD, function(y) {
+      .conform_intens(x = raw_wave, y = y, xout = wn, ...)})]
 
   if(type == "roll") {
     join <- data.table("wavenumber" = wn)
