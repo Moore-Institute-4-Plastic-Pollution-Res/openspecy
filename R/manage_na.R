@@ -83,6 +83,9 @@ manage_na.default <- function(x, lead_tail_only = TRUE, ig = c(NA), ...) {
 manage_na.OpenSpecy <- function(x, lead_tail_only = TRUE, ig = c(NA), fun,
                                 type = "ignore", ...) {
 
+  x$spectra <- data.table::as.data.table(x$spectra)
+  x$spectra <- x$spectra[, lapply(.SD, as.numeric)]
+
   consistent <- x$spectra[, lapply(.SD, manage_na,
                                    lead_tail_only = lead_tail_only,
                                    ig = ig)] |>

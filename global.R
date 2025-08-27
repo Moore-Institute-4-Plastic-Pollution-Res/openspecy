@@ -18,14 +18,15 @@ library(magrittr); library(dplyr); library(scales); library(reshape2); library(d
 #     library(munsell)   # ggplot2 depends on it; explicit keeps the bundler honest
 # }
 # 
-# # DO NOT load native/unsupported pkgs in Shinylive
+# Load supporting packages
 if (!is_shinylive) {
      library(glmnet); library(hyperSpec); library(mmand); library(signal)
      library(caTools); library(data.table); library(OpenSpecy)
      library(ggplot2); library(munsell)
 } else {
-     # Attempt to load packages available in webR and source OpenSpecy functions
-     try(library(data.table), silent = TRUE)
+     pkgs <- c("glmnet", "hyperSpec", "mmand", "signal", "caTools",
+               "data.table", "OpenSpecy", "ggplot2", "munsell")
+     lapply(pkgs, function(pkg) try(library(pkg), silent = TRUE))
      lapply(list.files("R", pattern = "\\.R$", full.names = TRUE), source)
 }
 
@@ -58,8 +59,8 @@ theme_black_minimal <- function(base_size = 11, base_family = "") {
 load_data <- function() {
     raman_hdpe <- readRDS("data/raman_hdpe.rds")
 
-    testdata <-  data.frame(wavenumber = raman_hdpe$wavenumber,
-                            intensity = raman_hdpe$spectra$intensity)
+    testdata <- data.table(wavenumber = raman_hdpe$wavenumber,
+                           intensity = raman_hdpe$spectra$intensity)
 
     # Inject variables into the parent environment
     invisible(list2env(as.list(environment()), parent.frame()))
