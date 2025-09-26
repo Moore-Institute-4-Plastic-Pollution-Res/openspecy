@@ -14,9 +14,11 @@ library(shinyjs)
 library(dplyr)
 library(shinyBS)
 library(jsonlite)
-library(OpenSpecy)
+# library(OpenSpecy)
 library(DT)
 library(shinycssloaders)
+library(munsell)
+library(ggplot2)
 
 lapply(list.files("R", full.names = TRUE), source)
 
