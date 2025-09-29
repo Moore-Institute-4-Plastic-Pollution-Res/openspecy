@@ -14,7 +14,7 @@ library(shinyjs)
 library(dplyr)
 library(shinyBS)
 library(jsonlite)
-# library(OpenSpecy)
+library(OpenSpecy)
 library(DT)
 library(shinycssloaders)
 library(munsell)
@@ -57,6 +57,67 @@ load_data <- function() {
 }
 
 
+metadata_file <- ".openspecy-shiny-metadata.rds"
+
+read_app_metadata <- function(path = metadata_file) {
+  if (!file.exists(path)) {
+    return(NULL)
+  }
+  
+  tryCatch(readRDS(path), error = function(...) NULL)
+}
+
+build_version_display <- function(metadata) {
+  default_href <- "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy?tab=readme-ov-file#version-history"
+  default_text <- paste0("Last Updated: ", format(Sys.Date()))
+  default_title <- "Click here to view older versions of this app"
+  
+  if (is.null(metadata)) {
+    return(list(text = default_text, href = default_href, title = default_title))
+  }
+  commit <- metadata$commit
+  ref <- metadata$ref
+  owner <- metadata$owner
+  repo <- metadata$repo
+  
+  downloaded_time <- metadata$downloaded_at
+  
+  text <- paste0("Last Pulled: ", downloaded_time)
+  commit_display <- NULL
+  if (!is.null(commit)) {
+    commit_display <- substr(commit, 1, min(nchar(commit), 7))
+    text <- paste0(text, " • Commit ", commit_display)
+  }
+  
+  href <- default_href
+  if (!is.null(owner) && !is.null(repo)) {
+    href <- sprintf("https://github.com/%s/%s/commits", owner, repo)
+    if (!is.null(ref)) {
+      href <- sprintf("%s/%s", href, utils::URLencode(ref, reserved = TRUE))
+    }
+  }
+  
+  title <- default_title
+  if (!is.null(downloaded_time) || !is.null(commit)) {
+    parts <- c()
+    if (!is.null(downloaded_time)) {
+      parts <- c(parts, paste0("Last pulled ", downloaded_time))
+    }
+    if (!is.null(commit)) {
+      parts <- c(parts, paste0("Commit ", commit))
+    }
+    if (length(parts)) {
+      title <- paste(parts, collapse = " — ")
+    }
+  }
+  
+  list(text = text, href = href, title = title)
+}
+
+app_metadata <- read_app_metadata()
+app_version_display <- build_version_display(app_metadata)
+
+  
 # Workaround for Chromium Issue 468227
 downloadButton <- function(...) {
   tag <- shiny::downloadButton(...)

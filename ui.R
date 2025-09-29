@@ -23,16 +23,22 @@ dashboardPage(
       class = "dropdown",
       style = "list-style-type: none;",
       tags$a(
-        paste0("Last Updated: ",Sys.Date()),
-        href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy?tab=readme-ov-file#version-history",
+        # paste0("Last Updated: ",Sys.Date()),
+        # href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy?tab=readme-ov-file#version-history",
+        # target = "_blank",
+        # title = "Click here to view older versions of this app",
+        # style = "font-size: 19px;text-decoration: none;"
+        app_version_display$text,
+        href = app_version_display$href,
         target = "_blank",
-        title = "Click here to view older versions of this app",
+        title = app_version_display$title,
         style = "font-size: 19px;text-decoration: none;"
       )
     )
   ),
   #Sidebar ----
   dashboardSidebar(
+    skin = "dark",
     sidebarUserPanel(
       name = "Welcome!"
     ),
@@ -73,7 +79,7 @@ dashboardPage(
                     color: green; font-size: 300%;
                     }
                     ")),
-      HTML('<script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>'),
+      # HTML('<script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>'),
       tags$link(rel = "icon", type = "image/png", href = "favicon.png")
       #This is for the error messages.
     ),
@@ -490,6 +496,23 @@ dashboardPage(
                                                   choices =  c("Full" = "full",
                                                                "Medoid" = "medoid",
                                                                "Multinomial" = "model")),
+                                      conditionalPanel(
+                                        condition = "input.lib_type != 'model'",
+                                        fluidRow(
+                                          box(width = 12,
+                                              collapsed = T,
+                                              title = prettySwitch(inputId = "filter_lib",
+                                                                   label = "Filter Library",
+                                                                   inline = T,
+                                                                   value = F,
+                                                                   status = "success",
+                                                                   fill = T),
+                                              pickerInput(inputId = "lib_org",
+                                                          label = "Library Organization",
+                                                          choices = NULL,
+                                                          multiple = TRUE,
+                                                          options = list(`actions-box` = TRUE))))
+                                      ),
                                       fluidRow(
                                         box(width = 12, 
                                             collapsed = T,
@@ -532,15 +555,13 @@ dashboardPage(
                     uiOutput("choice_names"),
                     fluidRow(
                       column(12, 
-                             shinycssloaders::withSpinner(div(
-                             style = "padding-bottom:0px;margin-bottom: 0px;background-color:black;",
-                                             plotlyOutput("heatmapA", inline = TRUE, width = "1600px")
-                             ))),
-                      column(1, uiOutput("nav_buttons"))
+                             shinycssloaders::withSpinner(
+                                             plotlyOutput("heatmapA", inline = TRUE, width = "1600px"), type = 8
+                             ))
+                      # column(1, uiOutput("nav_buttons"))
                     ),
                     shinycssloaders::withSpinner(
-                      div(style = "padding-top: 0px; margin-top: 0px; background-color:black;",
-                          plotlyOutput("MyPlotC", inline = T, width = "1600px"))),
+                          plotlyOutput("MyPlotC", inline = T, width = "1600px"), type = 8),
                     div(style = "overflow-x: scroll",
                         DT::dataTableOutput("eventmetadata")
                     ),
