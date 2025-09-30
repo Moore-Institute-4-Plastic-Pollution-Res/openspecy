@@ -68,6 +68,19 @@ dashboardPage(
   ),
   #Body ----
   dashboardBody(
+    
+    # Pop Up window for Donations
+    modalDialog(
+      title = tags$div(
+        h1("Help Support Us!"),
+        style = "flex: 1; text-align: center;"),
+        h4(HTML("Thanks to users like you, OpenSpecy remains free and open!
+      Your contribution helps us maintain and improve our work.<br/><br/> Please consider making a donation to support our efforts.")),
+      size = "xl",
+      easyClose = FALSE
+    ),
+    
+    
     #Script for all pages ----
     # Required for any of the shinyjs functions.
     shinyjs::useShinyjs(),
