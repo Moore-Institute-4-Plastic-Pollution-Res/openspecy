@@ -21,11 +21,6 @@ library(munsell)
 library(ggplot2)
 
 # reactlog::reactlog_enable()
-# # timeit <- function(label, expr) {
-# #   t0 <- proc.time()[["elapsed"]]
-# #   on.exit(cat(sprintf("[TIMER] %s: %.3fs\n", label, proc.time()[["elapsed"]] - t0)))
-# #   force(expr)
-# # }
 # TIME_ENABLED <- TRUE
 # .perf <- new.env(parent = emptyenv())
 
@@ -46,11 +41,9 @@ library(ggplot2)
 #   res <- force(expr)
 #   res
 # }
-
-
 lapply(list.files("R", full.names = TRUE), source)
 
-# Define the custom theme
+  # Define the custom theme
 theme_black_minimal <- function(base_size = 11, base_family = "") {
     theme_minimal(base_size = base_size, base_family = base_family) +
         theme(
@@ -74,7 +67,7 @@ theme_black_minimal <- function(base_size = 11, base_family = "") {
         )
 }
 
-# Load all data ----
+#  Load all data ----
 load_data <- function() {
   data("raman_hdpe")
   testdata <- data.table(wavenumber = raman_hdpe$wavenumber,
@@ -83,7 +76,6 @@ load_data <- function() {
   # Inject variables into the parent environment
   invisible(list2env(as.list(environment()), parent.frame()))
 }
-
 
 metadata_file <- ".openspecy-shiny-metadata.rds"
 
@@ -145,7 +137,7 @@ build_version_display <- function(metadata) {
 app_metadata <- read_app_metadata()
 app_version_display <- build_version_display(app_metadata)
 
-  
+
 # Workaround for Chromium Issue 468227
 downloadButton <- function(...) {
   tag <- shiny::downloadButton(...)
@@ -161,3 +153,4 @@ citation <-
   Classification Needs an Open Source Community: Open Specy to the Rescue!”
   <i>Analytical Chemistry</i>, <b>93</b>(21), 7543–7548. doi:
   <a href='https://doi.org/10.1021/acs.analchem.1c00123'>10.1021/acs.analchem.1c00123</a>.")
+

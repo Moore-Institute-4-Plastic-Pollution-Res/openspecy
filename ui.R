@@ -97,71 +97,69 @@ dashboardPage(
       #This is for the error messages.
     ),
     tabItems(
+      # About Tab ----
       tabItem(
         tabName = "about",
+        accordion(
+          id = "accordion_welcome",
+          accordionItem(
+            title = "Welcome",
+            status = "info",
+            collapsed = F,
             fluidRow(
-              column(width = 12,
-              titlePanel("Open Specy to the Rescue!"),
-              box(
-                width = NULL,
-                fluidRow(
-                  column(
-                    6,
-                    p(class = "lead",
-                      "Join the hundreds of researchers from around the world who are part of
-         the Open Specy community by analyzing, sharing, processing, and
-         identifying their Raman and IR spectra."
-                    ),
-                    p(class = "lead",
-                      tags$span(style = "position:relative; top:.8ex;",
-                                tags$a(
-                                  href   = "https://www.linkedin.com/in/win-cowger/",
-                                  target = "_blank",
-                                  class  = "linkedin-button",
-                                  icon("linkedin", class = "fa-2x")
-                                )
-                      ),
-                      "Follow Win on LinkedIn for Latest Updates"
-                    ),
-                    p(class = "lead",
-                      HTML("<span style='position: relative; top:.8ex;'><a
-                class='github-button' href='https://github.com/wincowgerDEV/OpenSpecy/subscription'
-                data-color-scheme='no-preference: dark; light: dark; dark: dark;'
-                data-size='large' aria-label='Watch wincowgerDEV/OpenSpecy'>Watch</a></span>
-                us develop Open Specy on GitHub, file an
-                <span style='position: relative; top:.8ex;'><a
-                class='github-button'
-                href='https://github.com/wincowgerDEV/OpenSpecy/issues'
-                data-color-scheme='no-preference: dark; light: dark; dark: dark;'
-                data-icon='octicon-issue-opened' data-size='large'
-                aria-label='Issue wincowgerDEV/OpenSpecy on GitHub'>Issue</a></span>,
-                or request a feature")
-                    ),
-                    p(class = "lead",
-                      HTML("Or just e-mail <a href='mailto:wincowger@gmail.com?subject=Open Specy mailing list'>
-             wincowger@gmail.com</a> to be added to the Open Specy mailing list")
-                    ),
-                    br(),
-                    p(class = "lead", "Open Specy is free and open source thanks to our partners."),
-                    br(),
-                    p(class = "lead", "Looking for the classic version of OpenSpecy? Go to wincowger.shinyapps.io/openspecy-classic")
-                  ),
-                  column(
-                    6,
-                    # Responsive 16:9 wrapper
-                    div(style = "position:relative; padding-bottom:56.25%; height:0; overflow:hidden;",
-                        tags$iframe(
-                          src = "https://www.youtube-nocookie.com/embed/3RKufDxzriE",
-                          title = "YouTube video player",
-                          frameborder = "0",
-                          allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                          allowfullscreen = NA,
-                          style = "position:absolute; top:0; left:0; width:100%; height:100%;"
-                        )
-                    )
-                  )
-                )
-              )),
+              column(6,
+                     p(class = "lead", "Join the hundreds of
+                               researchers from around the world who are part of
+                               the Open Specy community by
+                               analyzing, sharing, processing, and identifying
+                               their Raman and IR spectra."),
+                     p(class = "lead",
+                       tags$span(style = "position:relative; top:.8ex;",
+                                 tags$a(
+                                   href   = "https://www.linkedin.com/in/win-cowger/",
+                                   target = "_blank",                   # open in new tab
+                                   class  = "linkedin-button",          # custom CSS (below)
+                                   icon("linkedin", class = "fa-2x")    # larger icon
+                                 )
+                       ),
+                       "Follow Win on LinkedIn for Latest Updates"
+                     ),
+                     p(class = "lead",
+                       HTML("<span style='position: relative; top:.8ex;'><a
+                                    class='github-button' href='https://github.com/wincowgerDEV/OpenSpecy/subscription'
+                                    data-color-scheme='no-preference: dark; light: dark; dark: dark;'
+                                    data-size='large' aria-label='Watch wincowgerDEV/OpenSpecy'>Watch</a></span>
+                                    us develop Open Specy on GitHub, file an
+                                    <span style='position: relative; top:.8ex;'><a
+                                    class='github-button'
+                                    href='https://github.com/wincowgerDEV/OpenSpecy/issues'
+                                    data-color-scheme='no-preference: dark; light: dark; dark: dark;'
+                                    data-icon='octicon-issue-opened' data-size='large'
+                                    aria-label='Issue wincowgerDEV/OpenSpecy on GitHub'>Issue</a></span>,
+                                    or request a feature")
+                     ),
+                     p(class = "lead",
+                       HTML("Or just e-mail <a href='mailto:wincowger@gmail.com?subject=Open Specy mailing list'>
+                                          wincowger@gmail.com</a>
+                                          to be added to the Open Specy mailing list")
+                     ),
+                     br(),
+                     p(class = "lead", "Open Specy is free and open
+                               source thanks to our partners."),
+                     br(),
+                     p(class = "lead", HTML("Looking for the classic version of OpenSpecy? Go to <a href='wincowger.shinyapps.io/openspecy-classic'>wincowger.shinyapps.io/openspecy-classic</a>"))),
+
+              column(6, HTML("<iframe width='100%' height='100%' src='https://www.youtube-nocookie.com/embed/3RKufDxzriE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>")
+              )
+            )
+          )
+        ),
+        accordion(
+          id = "accordion_instructions",
+          accordionItem(
+            title = "Detailed Instructions",
+            status = "info",
+            collapsed = FALSE,
             fluidRow(
               column(6,
                      HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=HmRLfamgtrCYg5Gm&amp;list=PLqdH8O1nalYa4a8JXQ6GbNsH3YQV_aY7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'),
@@ -179,13 +177,15 @@ dashboardPage(
                        class="btn btn-primary btn-lg", 
                        style = "width: 100%;")
               )
+            )
+          )
         ),
         accordion(
           id = "accordion_links",
           accordionItem(
             title = "Useful Links",
             status = "info",
-            collapsed = TRUE,
+            collapsed = FALSE,
             a(href = "https://simple-plastics.eu/", "Free FTIR Software: siMPle microplastic IR spectral identification software", class = "lead"),
             br(),
             a(href = "https://gitlab.ipfdd.de/GEPARD/gepard", "Free Raman and FTIR Software: GEPARD (Gepard-Enabled PARticle Detection for Raman microscopes) Designed for particle-based microplastic analysis", class = "lead"),
@@ -201,8 +201,7 @@ dashboardPage(
             a(href = "https://www.effemm2.de/spectragryph/index.html", "Free desktop application for spectral analysis and links to reference databases.", class = "lead")   
           )
         )
-      )),
-      # About Tab ----
+      ),    
       #Analyze Spectra Tab ----
       tabItem("analyze", 
               br(),
