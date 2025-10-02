@@ -20,6 +20,29 @@ library(shinycssloaders)
 library(munsell)
 library(ggplot2)
 
+reactlog::reactlog_enable()
+# timeit <- function(label, expr) {
+#   t0 <- proc.time()[["elapsed"]]
+#   on.exit(cat(sprintf("[TIMER] %s: %.3fs\n", label, proc.time()[["elapsed"]] - t0)))
+#   force(expr)
+# }
+TIME_ENABLED <- TRUE
+.perf <- new.env(parent = emptyenv())
+
+timeit <- function(label, expr) {
+  if (!TIME_ENABLED) return(force(expr))
+  t0 <- proc.time()[["elapsed"]]
+  on.exit({
+    dt <- proc.time()[["elapsed"]] - t0
+    cat(sprintf("[TIMER] %s: %.3fs\n", label, dt))
+    v <- .perf[[label]]; if (is.null(v)) v <- list(n = 0L, t = 0)
+    v$n <- v$n + 1L; v$t <- v$t + dt; .perf[[label]] <- v
+  })
+  force(expr)
+}
+
+
+
 lapply(list.files("R", full.names = TRUE), source)
 
 # Define the custom theme

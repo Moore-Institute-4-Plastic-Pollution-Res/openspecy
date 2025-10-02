@@ -2,7 +2,6 @@ function(input, output, session) {
 
   #Setup ----
   options(shiny.maxRequestSize=10000*1024^2)
-
   #URL Query
   # observeEvent(session$clientData$url_search, {
   #     query <- parseQueryString(session$clientData$url_search)
@@ -54,7 +53,6 @@ function(input, output, session) {
         type = "warning")
       return(NULL)
     }
-
     withProgress(message = "Reading data", value = 2/3, {
 
       rout <- tryCatch(expr = {
@@ -114,7 +112,15 @@ function(input, output, session) {
   })
 
   #The matching library to use.
+  server <- function(input, output, session) {
+    session$onFlushed(function(){
+      updatePickerInput(session, "id_strategy", selected = "deriv")
+      updatePickerInput(session, "lib_type",   selected = "medoid")
+    }, once = TRUE)
+  }
+  
   libraryR <- reactive({
+    timeit("match library", {
     req(input$active_identification)
     if (input$id_strategy == "deriv" & input$lib_type == "medoid") {
       if (file.exists("data/medoid_derivative.rds")) {
@@ -128,7 +134,7 @@ function(input, output, session) {
           get_lib("medoid_derivative",
                   revision = "iThmNyMeUKhkWMvbBxQqpf1sESdQBFTs",
                   #mode = "w",
-                  #path = "data/",
+                  path = "data/",
                   aws = TRUE)
         }
 
@@ -149,7 +155,7 @@ function(input, output, session) {
           get_lib("medoid_nobaseline",
                   revision = "CLJCDpeFCMZw4hFUW4Y1QFT2cj23W1Yz",
                   #mode = "w",
-                  #path = "data/",
+                  path = "data/",
                   aws = TRUE)
         }
         library <- load_lib("medoid_nobaseline")
@@ -168,7 +174,7 @@ function(input, output, session) {
           get_lib("model_derivative",
                   revision = "Wk7H.Zjj4coxiMGlqQlXjV5smmZou.IH",
                   #mode = "w",
-                  #path = "data/",
+                  path = "data/",
                   aws = TRUE)
         }
         library <- load_lib("model_derivative")
@@ -189,7 +195,7 @@ function(input, output, session) {
           get_lib("model_nobaseline",
                   revision = "rtJY7zQTDzRISfGpvYrU0bcj8nnRYs26",
                   #mode = "w",
-                  #path = "data/",
+                  path = "data/",
                   aws = TRUE)
         }
         library <- load_lib("model_nobaseline")
@@ -210,30 +216,30 @@ function(input, output, session) {
           get_lib("nobaseline",
                   revision = "XHh26IfFkVgU6O011uKpGeXGoPNsB0_t",
                   #mode = "w",
-                  #path = "data/",
+                  path = "data/",
                   aws = TRUE)
         }
         library <- load_lib("nobaseline")
       }
     }
-    else if (grepl("deriv$", input$id_strategy)) {
-      if (file.exists("data/derivative.rds")) {
-        library <- read_any("data/derivative.rds")
-      }
-      else{
-        if(is(tryCatch(check_lib("derivative"),
-                       error=function(e) e,
-                       warning=function(w) w),
-              "warning")){
-          get_lib("derivative",
-                  revision = "k9DA01hqGk0dNudCu3ddhwQX.whPGrsp",
-                  #mode = "w",
-                  path = "data/",
-                  aws = TRUE)
-        }
-        library <- load_lib("derivative")
-      }
-    }
+    # else if (grepl("deriv$", input$id_strategy)) {
+    #   if (file.exists("data/derivative.rds")) {
+    #     library <- read_any("data/derivative.rds")
+    #   }
+    #   else{
+    #     if(is(tryCatch(check_lib("derivative"),
+    #                    error=function(e) e,
+    #                    warning=function(w) w),
+    #           "warning")){
+    #       get_lib("derivative",
+    #               revision = "k9DA01hqGk0dNudCu3ddhwQX.whPGrsp",
+    #               #mode = "w",
+    #               path = "data/",
+    #               aws = TRUE)
+    #     }
+    #     library <- load_lib("derivative")
+    #   }
+    # }
     if(!is.null(preprocessed$data)){
       library <- restrict_range(library, min = min(DataR()$wavenumber), max = max(DataR()$wavenumber), make_rel = F) %>%
         filter_spec(!vapply(.$spectra, function(x){all(is.na(x))}, FUN.VALUE = logical(1)))
@@ -249,7 +255,7 @@ function(input, output, session) {
       filter_spec(library, logic = library$metadata$spectrum_type == "raman")
     }
   })
-  
+  })  
    # Sort through library metadata and filter
   observeEvent(libraryR(), {
     req(input$active_identification)
@@ -258,8 +264,11 @@ function(input, output, session) {
     updatePickerInput(session, "lib_org", choices = orgs, selected = orgs)
   })
   
-  
+  # Filtering of library
   library_filtered <- reactive({
+    timeit("library filter new", {
+      
+    
     if (input$lib_type == "model" || is.null(input$filter_lib) || !input$filter_lib) {
       libraryR()
     } else {
@@ -267,7 +276,7 @@ function(input, output, session) {
                   logic = libraryR()$metadata$organization %in% input$lib_org)
     }
   })
-
+})
   # Corrects spectral intensity units using the user specified correction
 
   # Redirecting preprocessed data to be a reactive variable. Not totally sure why this is happening in addition to the other.
@@ -323,6 +332,7 @@ function(input, output, session) {
 
   # Choose which spectra to use for matching and plotting.
   DataR <- reactive({
+    timeit("choose spectra DataR", {
     req(!is.null(preprocessed$data))
     if(input$active_preprocessing) {
       baseline_data()
@@ -330,16 +340,19 @@ function(input, output, session) {
     else {
       data()
     }
+    })
   })
 
   #The data to use in the plot.
   DataR_plot <- reactive({
+    timeit("DataR plot", {
     if(isTruthy(DataR())){
       filter_spec(DataR(), logic = 1:ncol(DataR()$spectra) == data_click$plot)
     }
     else {
       list(wavenumber = numeric(), spectra = data.table(empty = numeric()))
     }
+    })
   })
 
   # SNR ----
@@ -495,6 +508,7 @@ function(input, output, session) {
 
   #The correlation matrix between the unknowns and the library.
   correlation <- reactive({
+    timeit("correlation matrix", {
     req(!is.null(preprocessed$data))
     req(input$active_identification)
     req(!grepl("^model$", input$lib_type))
@@ -504,10 +518,12 @@ function(input, output, session) {
                conform = T,
                type = "roll")
     })
+    })
   })
 
   #The output from the AI classification algorithm.
   ai_output <- reactive({ #tested working.
+    timeit("ai output", {
     req(!is.null(preprocessed$data))
     req(input$active_identification)
     req(grepl("^model$", input$lib_type))
@@ -523,9 +539,11 @@ function(input, output, session) {
 
     match_spec(data, library = libraryR(), na.rm = T, fill = fill)
   })
+  })
 
   #The maximum correlation or AI value.
   max_cor <- reactive({
+    timeit("max_cor AI", {
     req(!is.null(preprocessed$data))
     #req(input$active_identification)
     if(isTruthy(input$active_identification)){
@@ -542,6 +560,8 @@ function(input, output, session) {
       NULL
     }
   })
+  })
+
 
   #The maximum correlation or AI value.
   max_cor_identity <- reactive({
@@ -570,6 +590,7 @@ function(input, output, session) {
   })
 
   output$cor_plot <- renderPlot({
+    timeit("cor_plot render", {
     req(!is.null(preprocessed$data))
     ggplot() +
       geom_histogram(aes(x = max_cor()), fill = "white") +
@@ -578,11 +599,13 @@ function(input, output, session) {
       theme_black_minimal() +
       labs(x = "Correlation")
   })
+  })
 
 
 
   #Metadata for all the matches for a single unknown spectrum
   matches_to_single <- reactive({
+    timeit("matches to single", {
     req(input$active_identification)
     if(is.null(preprocessed$data)){
       library_filtered()$metadata %>%
@@ -604,11 +627,13 @@ function(input, output, session) {
 
     }
   })
+  })
 
   #Spectral data for the selected match.
   match_selected <- reactive({# Default to first row if not yet clicked
     #req(input$file)
     #req(input$active_identification)
+    timeit("match_selected", {
     req(!grepl("^model$", input$lib_type))
     if(!input$active_identification) {
       as_OpenSpecy(x = numeric(), spectra = data.table(empty = numeric()))
@@ -619,9 +644,11 @@ function(input, output, session) {
 
     }
   })
+  })
 
   #All matches table for the current selection
   top_matches <- reactive({
+    timeit("top_matches", {
     #req(input$file)
     req(input$active_identification)
     req(!grepl("^model$", input$lib_type))
@@ -640,6 +667,7 @@ function(input, output, session) {
                       "organization",
                       "sample_name")
     }
+  })
   })
 
   #Create the data table that goes below the plot which provides extra metadata.
@@ -822,6 +850,7 @@ function(input, output, session) {
   #Heatmap ----
   #Display the map or batch data in a selectable heatmap.
   output$heatmapA <- renderPlotly({
+    timeit("heatmap", {
     req(!is.null(preprocessed$data))
     req(ncol(preprocessed$data$spectra) > 1)
     #req(input$map_color)
@@ -863,6 +892,7 @@ function(input, output, session) {
                  source = "heat_plot") %>%
       event_register(event = "plotly_click")
 
+  })
   })
 
   thresholded_particles <- reactive({
@@ -986,9 +1016,11 @@ function(input, output, session) {
                   choices = c("Simple", "All"))
     )
   })
+  
   output$download_data <- downloadHandler(
     filename = function() {if(input$download_selection == "Test Map") {paste0(input$download_selection, human_ts(), ".zip")} else{paste0(input$download_selection, human_ts(), ".csv")}},
     content = function(file) {
+      timeit("download total", {
       if(input$download_selection == "Test Data") {fwrite(testdata, file)}
       if(input$download_selection == "Test Map") {file.copy(read_extdata("CA_tiny_map.zip"), file)}
       if(input$download_selection == "Your Spectra") {
@@ -1004,8 +1036,16 @@ function(input, output, session) {
                                        good_signal = signal_to_noise() > MinSNR()) %>%
             bind_cols(DataR()$metadata)
 
-          all_matches <- reshape2::melt(correlation()) %>%
-            as.data.table() %>%
+          corr <- correlation()
+
+          all_matches <- data.table(
+            Var1  = rep(rownames(corr), times = ncol(corr)),
+            Var2  = rep(colnames(corr), each  = nrow(corr)),
+            value = as.vector(corr)
+          )
+          # all_matches <- reshape2::melt(correlation()) %>%
+          #   as.data.table() %>%
+          all_matches <- all_matches |>
             left_join(
               library_filtered()$metadata %>% select(-any_of(c("col_id", "file_name"))),
               by = c("Var1" = "sample_name")
@@ -1037,6 +1077,9 @@ function(input, output, session) {
       }
       if(input$download_selection == "Thresholded Particles") {write_spec(thresholded_particles(), file = file)}
     })
+    }
+    )
+    
 
   # Hide functions or objects when they shouldn't exist.
 
