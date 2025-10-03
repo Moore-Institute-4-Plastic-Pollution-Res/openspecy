@@ -376,8 +376,8 @@ dashboardPage(
                                       fluidRow(
                                         box(width = 12,
                                             collapsed = T,
-                                            footer = tags$small("Restricting the spectral range can remove regions of spectrum where no peaks exist and improve matching.
-                                                                                     These options control the maximum and minimum wavenumbers in the range to crop the spectra."),
+                                            footer = footnote("Restricting the spectral range can remove regions of spectrum where no peaks exist and improve matching.
+                                                               These options control the maximum and minimum wavenumbers in the range to crop the spectra."),
                                             title =  prettySwitch("range_decision",
                                                                   label = "Range Selection",
                                                                   inline = T,
