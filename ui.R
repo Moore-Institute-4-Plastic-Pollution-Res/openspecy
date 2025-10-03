@@ -602,21 +602,64 @@ dashboardPage(
                 id = "accordion_donation",
               
               accordionItem(
-                title = h4("Donate"),
+                title = h4("Make a Donation"),
                 status = "info",
                 collapsed = FALSE,
                 fluidRow(
-                  column(6,
+                  column(12,
                          p(class = "lead",
-                           ""
+                           "Open Specy is a free and open-source plastform dedicated to advancing microplastic research. 
+                           We strive to keep our tool accessible to researchers, students, and community scientist worldwide."),
+                         p(class = "lead",
+                           "Maintaining Open Specy takes time and resources. By becoming an annual member, you are supporting the revolutionization of spectroscopy."),
+                         p(class = "lead",
+                           h4("Select a membership level")
+                           ),
+                         glide(
+                           screen(
+                             fluidRow(
+                               style = "margin-left:0; margin-right:0;",
+                               column(
+                                 width = 6, style = "padding-right:5px;",
+                                 bs4Dash::box( # or shinydashboard::box, but be consistent
+                                   width = 12, collapsible = FALSE,
+                                   h4("Supporter"),
+                                   img(src = "logo.png", height = "50px"),
+                                   h5("$10/Year")
+                                 )
+                               ),
+                               column(
+                                 width = 6, style = "padding-left:5px;",
+                                 bs4Dash::box(width = 12, collapsible = FALSE, p("B"))
+                               )
+                             )
+                           ),
+                           screen(
+                             fluidRow(
+                               style = "margin-left:0; margin-right:0;",
+                               column(
+                                 width = 6, style = "padding-right:5px;",
+                                 box( 
+                                   width = 8, collapsible = FALSE,
+                                   h4("Supporter"),
+                                   img(src = "logo.png", height = "50px"),
+                                   h5("$10/Year")
+                                 )
+                               ),
+                               column(
+                                 width = 6, style = "padding-left:5px;",
+                                 box(width = 8, collapsible = FALSE, p("B"))
+                               )
+                             )
                            )
-                         
-                
+                           
+                         )
+                  )
                 # #img(src = "https://p.turbosquid.com/ts-thumb/rX/Wm1eqB/t5/currencysymbolsgoldensetc4dmodel000/jpg/1613802168/300x300/sharp_fit_q85/a31625492ce9c8009ab3e4281ad752006e1163ec/currencysymbolsgoldensetc4dmodel000.jpg", style = "padding:1rem; background-color:rgba(255,255,255, 0.9)", width = "100%"),
                 # actionButton(inputId = "ab1", label = "Donate", style="padding:4px; background-color: #2a9fd6; font-size:200%", width = "100%",
                 #              icon = icon("donate"),
                 #              onclick = "window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=wincowger@gmail.com&lc=US&item_name=Donation+to+Open+Specy&no_note=0&cn=&currency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted', '_blank')")
-              )))),
+              ))),
               accordion(
                 id = "accordion_partners",
                 accordionItem(

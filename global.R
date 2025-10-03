@@ -19,6 +19,7 @@ library(DT)
 library(shinycssloaders)
 library(munsell)
 library(ggplot2)
+library(shinyglide)
 
 # reactlog::reactlog_enable()
 # TIME_ENABLED <- TRUE
