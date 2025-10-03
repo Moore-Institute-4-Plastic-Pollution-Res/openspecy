@@ -608,7 +608,7 @@ dashboardPage(
                 fluidRow(
                   column(6,
                          p(class = "lead",
-                           "ABC"
+                           ""
                            )
                          
                 
