@@ -35,8 +35,8 @@ dashboardPage(
   dashboardSidebar(
     skin = "dark",
     sidebarUserPanel(
-      name = "Welcome!"
-    ),
+      name = h4("Welcome!"
+    )),
     sidebarMenu(
       id = "sidebarmenu",
       menuItem(
@@ -72,13 +72,96 @@ dashboardPage(
       title = tags$div(
         h1("Help Support Us!"),
         style = "flex: 1; text-align: center;"),
-        h4(HTML("Thanks to users like you, OpenSpecy remains free and open!
-      Your contribution helps us maintain and improve our work.<br/><br/> Please consider making a donation to support our efforts.")),
       size = "xl",
-      easyClose = FALSE
-    ),
-    
-    
+      easyClose = TRUE,
+      fluidRow(
+        column(5,
+               h4("Thanks to users like you, Open Specy remains free and open!"),
+               style = "padding-right:0px;",
+               tags$img(src = "donation.png", style = 'width: 24vw; padding:1rem;')),
+        column(
+          7,
+          style = "padding-left:0px;",
+          p(
+            class = "lead",
+            HTML(
+              "<br><br>Open Specy is a free and open-source plastform dedicated to advancing microplastic research.
+                           We strive to keep our tool accessible to researchers, students, and community scientist worldwide."
+            ),
+            style = "font-size:1.4rem;"
+          ),
+          p(
+            class = "lead",
+            HTML(
+              "Maintaining Open Specy takes time and resources. By becoming a donor, you are supporting the revolutionization of spectroscopy."
+            ),
+            style = "font-size:1.4rem;"
+          ),
+          HTML("<br>"),
+          p(class = "lead",
+            h3("Donate Today!")),
+          fluidRow(
+            column(
+              4,
+              actionButton(
+                inputId = "donate_25",
+                label = "$25",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            ),
+            column(
+              4,
+              actionButton(
+                inputId = "donate_50",
+                label = "$50",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            ),
+            column(
+              4,
+              actionButton(
+                inputId = "donate_75",
+                label = "$75",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            )),
+          HTML("<br>"),
+          fluidRow(
+            column(
+              4,
+              actionButton(
+                inputId = "donate_100",
+                label = "$100",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            ),
+            column(
+              4,
+              actionButton(
+                inputId = "donate_1k",
+                label = "$1,000",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            ),
+            column(
+              4,
+              actionButton(
+                inputId = "donate_other",
+                label = "Other",
+                style = "padding:4px; background-color: #2a9fd6; font-size:150%",
+                width = "100%"
+              )
+            )
+          )
+        )
+      )
+      ),
+
     tags$head(
       tags$script(async = T, src = "https://buttons.github.io/buttons.js"),
       tags$style(HTML("
@@ -88,7 +171,6 @@ dashboardPage(
                     ")),
       # HTML('<script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>'),
       tags$link(rel = "icon", type = "image/png", href = "favicon.png")
-      #This is for the error messages.
     ),
     tabItems(
       # About Tab ----
@@ -600,66 +682,209 @@ dashboardPage(
               br(),
               accordion(
                 id = "accordion_donation",
-              
               accordionItem(
                 title = h4("Make a Donation"),
                 status = "info",
                 collapsed = FALSE,
                 fluidRow(
-                  column(12,
-                         p(class = "lead",
-                           "Open Specy is a free and open-source plastform dedicated to advancing microplastic research. 
-                           We strive to keep our tool accessible to researchers, students, and community scientist worldwide."),
-                         p(class = "lead",
-                           "Maintaining Open Specy takes time and resources. By becoming an annual member, you are supporting the revolutionization of spectroscopy."),
-                         p(class = "lead",
-                           h4("Select a membership level")
-                           ),
-                         glide(
-                           screen(
-                             fluidRow(
-                               style = "margin-left:0; margin-right:0;",
-                               column(
-                                 width = 6, style = "padding-right:5px;",
-                                 bs4Dash::box( # or shinydashboard::box, but be consistent
-                                   width = 12, collapsible = FALSE,
-                                   h4("Supporter"),
-                                   img(src = "logo.png", height = "50px"),
-                                   h5("$10/Year")
-                                 )
-                               ),
-                               column(
-                                 width = 6, style = "padding-left:5px;",
-                                 bs4Dash::box(width = 12, collapsible = FALSE, p("B"))
-                               )
-                             )
-                           ),
-                           screen(
-                             fluidRow(
-                               style = "margin-left:0; margin-right:0;",
-                               column(
-                                 width = 6, style = "padding-right:5px;",
-                                 box( 
-                                   width = 8, collapsible = FALSE,
-                                   h4("Supporter"),
-                                   img(src = "logo.png", height = "50px"),
-                                   h5("$10/Year")
-                                 )
-                               ),
-                               column(
-                                 width = 6, style = "padding-left:5px;",
-                                 box(width = 8, collapsible = FALSE, p("B"))
-                               )
-                             )
-                           )
-                           
-                         )
+                  column(5,
+                         style = "padding-right:0px;",
+                         h2("Become a Supporter"),
+                         tags$img(src = "donation.png", style = 'width: 32vw; padding:1rem;')),
+                  column(
+                    7,
+                    style = "padding-left:0px;",
+                    p(
+                      class = "lead",
+                      HTML(
+                        "<br><br>Open Specy is a free and open-source plastform dedicated to advancing microplastic research.
+                           We strive to keep our tool accessible to researchers, students, and community scientist worldwide."
+                      ),
+                      style = "font-size:1.4rem;"
+                    ),
+                    p(
+                      class = "lead",
+                      HTML(
+                        "Maintaining Open Specy takes time and resources. By becoming a donor, you are supporting the revolutionization of spectroscopy."
+                      ),
+                      style = "font-size:1.4rem;"
+                    ),
+                    HTML("<br>"),
+                    p(class = "lead",
+                      h3("Donate Today!")),
+                    fluidRow(
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_25",
+                          label = "$25",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      ),
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_50",
+                          label = "$50",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      ),
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_75",
+                          label = "$75",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      )),
+                    HTML("<br>"),
+                    fluidRow(
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_100",
+                          label = "$100",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      ),
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_1k",
+                          label = "$1,000",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      ),
+                      column(
+                        4,
+                        actionButton(
+                          inputId = "donate_other",
+                          label = "Other",
+                          style = "padding:4px; background-color: #2a9fd6; font-size:200%",
+                          width = "100%"
+                        )
+                      )
+                    )
                   )
-                # #img(src = "https://p.turbosquid.com/ts-thumb/rX/Wm1eqB/t5/currencysymbolsgoldensetc4dmodel000/jpg/1613802168/300x300/sharp_fit_q85/a31625492ce9c8009ab3e4281ad752006e1163ec/currencysymbolsgoldensetc4dmodel000.jpg", style = "padding:1rem; background-color:rgba(255,255,255, 0.9)", width = "100%"),
+                  # #img(src = "https://p.turbosquid.com/ts-thumb/rX/Wm1eqB/t5/currencysymbolsgoldensetc4dmodel000/jpg/1613802168/300x300/sharp_fit_q85/a31625492ce9c8009ab3e4281ad752006e1163ec/currencysymbolsgoldensetc4dmodel000.jpg", style = "padding:1rem; background-color:rgba(255,255,255, 0.9)", width = "100%"),
                 # actionButton(inputId = "ab1", label = "Donate", style="padding:4px; background-color: #2a9fd6; font-size:200%", width = "100%",
                 #              icon = icon("donate"),
                 #              onclick = "window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=wincowger@gmail.com&lc=US&item_name=Donation+to+Open+Specy&no_note=0&cn=&currency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted', '_blank')")
               ))),
+              accordion(
+                id = "accordion_merch",
+                accordionItem(
+                  title = h4("Buy Merch"),
+                  status = "info",
+                  collapsed = FALSE,
+                  fluidRow(
+                    column(
+                      12,
+                      h3(
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/all",
+                          "Support us by buying Open Specy swag!"),
+                      ),
+                      class = "text-center"
+                    )
+                  ),
+                  tags$style(HTML("
+                  #merchCarousel { width: 600px;margin: 1rem auto; }
+                  #merchCarousel .carousel-item { text-align: center; }
+                  #merchCarousel img { width: 600px; height: 600px; object-fit: cover; }")),
+                  
+                  # Carousel block
+                  tags$div(
+                    id = "merchCarousel",
+                    class = "carousel slide",
+                    `data-ride` = "carousel",     
+                    `data-interval` = "3000",     
+                    
+                    tags$div(
+                      class = "carousel-inner",
+                      tags$div(
+                        class = "carousel-item active",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_totebag",
+                          target = "_blank",
+                          img(src = "openspecy_totebag.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_hat",
+                          target = "_blank",
+                          img(src = "openspecy_hat.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_mug",
+                          target = "_blank",
+                          img(src = "openspecy_mug.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_hoodie",
+                          target = "_blank",
+                          img(src = "openspecy_hoodie.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_shirt",
+                          target = "_blank",
+                          img(src = "openspecy_shirt.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_sticker",
+                          target = "_blank",
+                          img(src = "openspecy_sticker.jpg", width = 500, height = 500)
+                        )
+                      ),
+                      
+                      tags$div(
+                        class = "carousel-item",
+                        tags$a(
+                          href = "https://openspecy.myspreadshop.com/open+specy_tiedye",
+                          target = "_blank",
+                          img(src = "openspecy_tiedye.jpg", width = 500, height = 500)
+                        )
+                      )
+                    ),
+                    tags$a(
+                      class = "carousel-control-prev", href = "#merchCarousel",
+                      role = "button", `data-slide` = "prev",
+                      tags$span(class = "carousel-control-prev-icon", `aria-hidden` = "true"),
+                      tags$span(class = "sr-only", "Previous")
+                    ),
+                    tags$a(
+                      class = "carousel-control-next", href = "#merchCarousel",
+                      role = "button", `data-slide` = "next",
+                      tags$span(class = "carousel-control-next-icon", `aria-hidden` = "true"),
+                      tags$span(class = "sr-only", "Next")
+                    )
+                  )
+                )
+                ),
               accordion(
                 id = "accordion_partners",
                 accordionItem(
@@ -676,7 +901,7 @@ dashboardPage(
                                background-color:rgb(205, 127, 50, 0.5)",
                                      h3("Thriving (10,000–100,000$)"),
                                      img(src = "https://mooreplasticresearch.org/wp-content/uploads/2021/06/HorizontalLogo-FullName-1.png", style = "width:20vw"),
-                                     img(src = "https://www.helmholtz-hida.de/typo3conf/ext/hida_site_package/Resources/Public/dest/images/logos/hida-logo.svg", style = "width:20vw"),
+                                     tags$img(src = "hida_logo.png", style = "width:20vw"),
                                      img(src = "https://infrastructure.der-lab.net/wp-content/uploads/2017/05/logo_nrel_c.jpg", style = "width:20vw"),
                                      img(src = "https://mcpzfoundation.org/wp-content/uploads/2021/07/McPZ-Logo-Horizontal-RGB.png", style = "width:20vw")
                                  ),
@@ -691,7 +916,7 @@ dashboardPage(
                                      img(src = "https://www.hpu.edu/_global/images/header-logo.png", style = "width:10vw"),
                                      img(src = "https://www.nist.gov/libraries/nist-component-library/dist/img/logo/nist_logo_sidestack_rev.svg", style = "width:10vw"),
                                      img(src = "https://www.utoronto.ca/sites/all/themes/uoft_stark/img/U-of-T-logo.svg", style = "width:10vw"),
-                                     img(src = "https://www.uni-koblenz-landau.de/logo.png", style = "width:10vw"),
+                                     tags$img(src = "uni-koblenz.svg", style = "width:10vw"),
                                      img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Thermo_Fisher_Scientific_logo.svg/2560px-Thermo_Fisher_Scientific_logo.svg.png", style = "width:10vw")
                                  ),
                                  div(class = "jumbotron",
@@ -739,16 +964,7 @@ dashboardPage(
                   )
                 ),
                 accordionItem(
-                  title = h4("Buy Merch"),
-                  status = "info",
-                  collapsed = TRUE,
-                  img(src = "https://image.spreadshirtmedia.com/image-server/v1/products/T813A823PA3132PT17X42Y46D1038541132FS4033/views/1,width=650,height=650,appearanceId=823/updated-logo-for-open-specy-designed-by-alex-mcgoran.jpg", style = "padding:1rem; background-color:rgba(255,255,255, 0.9)", width = "100%"),
-                  actionButton(inputId = "ab2", label = "Shop", style="padding:4px; background-color: #2a9fd6; font-size:200%", width = "100%",
-                               icon = icon("shopping-cart"),
-                               onclick ="window.open('https://shop.spreadshirt.com/openspecy/all', '_blank')")
-                ),
-                accordionItem(
-                  title = "Contribute Time",
+                  title = h4("Contribute Time"),
                   status = "info",
                   collapsed = T,
                   img(src = "https://health.sunnybrook.ca/wp-content/uploads/2020/02/healthy-hands-810x424.jpg", style = "padding:1rem; background-color:rgba(255,255,255, 0.9)", width = "100%"),
@@ -758,7 +974,7 @@ dashboardPage(
                 ),
                 
                 accordionItem(
-                  title = "Contribute Spectra",
+                  title = h4("Contribute Spectra"),
                   status = "info",
                   collapsed = TRUE,
                   p(class = "lead", "To share spectra upload a file to the upload file tab.
