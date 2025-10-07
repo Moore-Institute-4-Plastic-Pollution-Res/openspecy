@@ -85,7 +85,7 @@ dashboardPage(
           p(
             class = "lead",
             HTML(
-              "<br><br>Open Specy is a free and open-source plastform dedicated to advancing microplastic research.
+              "<br><br>Open Specy is a free and open-source platform dedicated to advancing microplastic research.
                            We strive to keep our tool accessible to researchers, students, and community scientist worldwide."
             ),
             style = "font-size:1.4rem;"
@@ -107,7 +107,8 @@ dashboardPage(
                 inputId = "donate_25",
                 label = "$25",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=F2CAABAZ6JQTJ','_blank')"
               )
             ),
             column(
@@ -116,7 +117,8 @@ dashboardPage(
                 inputId = "donate_50",
                 label = "$50",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=MW8NUFBH7JX2W','_blank')"
               )
             ),
             column(
@@ -125,7 +127,8 @@ dashboardPage(
                 inputId = "donate_75",
                 label = "$75",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=M59EWJTJWHZBA','_blank')"
               )
             )),
           HTML("<br>"),
@@ -136,7 +139,8 @@ dashboardPage(
                 inputId = "donate_100",
                 label = "$100",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=WZPE5LCF4FSNE','_blank')"
               )
             ),
             column(
@@ -145,7 +149,8 @@ dashboardPage(
                 inputId = "donate_1k",
                 label = "$1,000",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=MCZ2D4TQGYVKC','_blank')"
               )
             ),
             column(
@@ -154,7 +159,8 @@ dashboardPage(
                 inputId = "donate_other",
                 label = "Other",
                 style = "padding:4px; background-color: #2a9fd6; font-size:150%",
-                width = "100%"
+                width = "100%",
+                onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=PZHG44PX5C89C','_blank')"
               )
             )
           )
@@ -649,9 +655,14 @@ dashboardPage(
                     h4(id = "placeholder1", "Upload some data to get started..."),
                     uiOutput("choice_names"),
                     fluidRow(
-                      column(12, 
-                             shinycssloaders::withSpinner(
-                                             plotlyOutput("heatmapA", inline = TRUE, width = "1600px"), type = 8
+                      column(12,
+                             div(
+                               id = "heatmap_wrap",
+                               shinycssloaders::withSpinner(
+                                 plotlyOutput("heatmapA", inline = TRUE, width = "1600px"), type = 8
+                                 
+                             )
+                      
                              ))
                       # column(1, uiOutput("nav_buttons"))
                     ),
@@ -719,7 +730,8 @@ dashboardPage(
                           inputId = "donate_25",
                           label = "$25",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=F2CAABAZ6JQTJ','_blank')"
                         )
                       ),
                       column(
@@ -728,7 +740,8 @@ dashboardPage(
                           inputId = "donate_50",
                           label = "$50",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=MW8NUFBH7JX2W','_blank')"
                         )
                       ),
                       column(
@@ -737,7 +750,8 @@ dashboardPage(
                           inputId = "donate_75",
                           label = "$75",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=M59EWJTJWHZBA','_blank')"
                         )
                       )),
                     HTML("<br>"),
@@ -748,7 +762,8 @@ dashboardPage(
                           inputId = "donate_100",
                           label = "$100",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=WZPE5LCF4FSNE','_blank')"
                         )
                       ),
                       column(
@@ -757,7 +772,8 @@ dashboardPage(
                           inputId = "donate_1k",
                           label = "$1,000",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=MCZ2D4TQGYVKC','_blank')"
                         )
                       ),
                       column(
@@ -766,7 +782,8 @@ dashboardPage(
                           inputId = "donate_other",
                           label = "Other",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
-                          width = "100%"
+                          width = "100%",
+                          onclick = "window.open('https://www.paypal.com/donate/?hosted_button_id=PZHG44PX5C89C','_blank')"
                         )
                       )
                     )
@@ -994,19 +1011,38 @@ dashboardPage(
               )
       ),
       tabItem("contract",
-              div(
-                h2("We are a group of experienced spectroscopists and can provide a variety of services for hire, please contact wincowger@gmail.com to inquire about any of the services below.", style = "color: lightblue;"),
-                h3(tags$ul(
-                  tags$li("Adding new features to OpenSpecy"),
-                  tags$li("Creating spectroscopy software"),
-                  tags$li("Microplastic sample analysis"),
-                  tags$li("Spectral identification"),
-                  tags$li("Study design"),
-                  tags$li("So much more...")
-                ), style = "color: lightyellow;"), 
-                style = "padding: 50px"
+              fluidRow(
+                column( 
+                  width = 12,
+                accordion(
+                  id = "accordion_contract",
+                  accordionItem(
+                    title = h4("Contract Us"),
+                    status = "info",
+                    collapsed = FALSE,
+                    fluidRow(
+                      p(class = "lead",
+                        HTML("We are a group of experienced spectroscopists and can provide a variety of services for hire, 
+                             please contact <a href='mailto:wincowger@gmail.com?subject=Open Specy contract'>wincowger@gmail.com</a> to inquire about any of the services below."),
+                        style = "font-size:25px;"
+                      ),
+                      tags$ol(
+                        class = "lead",
+                        style = "font-size:25px;",
+                        tags$ul(
+                          tags$li("Adding new features to OpenSpecy"),
+                          tags$li("Creating spectroscopy software"),
+                          tags$li("Microplastic sample analysis"),
+                          tags$li("Spectral identification"),
+                          tags$li("Study design"),
+                          tags$li("So much more!")
+                        )
+                      )
+                    )
+                  )
+                )
+                )
               )
-              
       )
     )
     
