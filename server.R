@@ -264,6 +264,7 @@ function(input, output, session) {
     updatePickerInput(session, "lib_org", choices = orgs, selected = orgs)
   })
   
+  
   # Filtering of library
   library_filtered <- reactive({
     # timeit("library filter new", {
@@ -276,6 +277,10 @@ function(input, output, session) {
     }
   # })
 })
+  observe({
+    assign("debug_library_filtered", library_filtered(), envir = .GlobalEnv)
+  })
+  
   
   # Corrects spectral intensity units using the user specified correction
 
@@ -848,11 +853,20 @@ function(input, output, session) {
 
   #Heatmap ----
   #Display the map or batch data in a selectable heatmap.
+  observe({
+    cond <- !is.null(preprocessed$data) && ncol(preprocessed$data$spectra) > 1
+    shinyjs::toggle(id = "heatmap_wrap", condition = cond)
+    shinyjs::toggle(id = "placeholder1", condition = !cond)
+  })
+  
+  
+  
   output$heatmapA <- renderPlotly({
     # timeit("heatmap", {
     req(!is.null(preprocessed$data))
     req(ncol(preprocessed$data$spectra) > 1)
     #req(input$map_color)
+
     if(input$collapse_decision & isTruthy(particles_logi()) & length(unique(as.character(particles_logi()))) > 1){
       test = def_features(DataR(), features = particles_logi())
     }
@@ -1028,6 +1042,12 @@ function(input, output, session) {
       if(input$download_selection == "Library Spectra") {write_spec(library_filtered(), file)}
       if(input$download_selection == "Top Matches") {
         if(!grepl("^model$", input$lib_type)){
+          
+          dataR_metadata <- data.table(match_threshold = MinCor(),
+                                       signal_to_noise = signal_to_noise(),
+                                       signal_threshold = MinSNR(),
+                                       good_signal = signal_to_noise() > MinSNR()) %>%
+            bind_cols(DataR()$metadata)
 
           # timeit("download top-matches (no-melt)", {
             # Top Matches extracted from matrix without reshape2
@@ -1047,44 +1067,23 @@ function(input, output, session) {
                 match_val  = col[ord]
               )
             })
-            all_matches <- rbindlist(top_list, use.names = TRUE)
 
-            lib_meta_min <- library_filtered()$metadata[
-              , .(sample_name, material_class, spectrum_identity, organization)
-            ]
-            all_matches <- merge(
-              all_matches, lib_meta_min, by = "sample_name", all.x = TRUE, sort = FALSE
-            )
+            all_matches <- rbindlist(top_list, use.names = TRUE) |> 
+              left_join(
+                library_filtered()$metadata %>% select(-any_of(c("col_id", "file_name"))),
+                by = "sample_name") %>%
+              left_join(dataR_metadata,
+                        by = "col_id") %>%
+              mutate(good_match_vals = match_val > match_threshold,
+                     good_matches = match_val > match_threshold & signal_to_noise > signal_threshold) %>%
+              .[, !sapply(., OpenSpecy::is_empty_vector), with = F] %>%
+              select(file_name, col_id, material_class, spectrum_identity, match_val, signal_to_noise, everything()) %>%
+              .[order(-match_val), .SD[1:input$top_n_input], by = col_id] %>%
+              {if(grepl("Simple", input$columns_selected)){select(., file_name, col_id, material_class, match_val, signal_to_noise)} else{.}} %>%
+              mutate(material_class = ifelse(match_val < MinCor(), rep.int("unknown", nrow(.)), material_class))
+            
+            fwrite(all_matches, file) 
 
-            dataR_metadata <- data.table(
-              col_id         = DataR()$metadata$col_id,
-              file_name      = DataR()$metadata$file_name,
-              signal_to_noise= signal_to_noise()
-            )
-
-            all_matches[, `:=`(
-              match_threshold   = MinCor(),
-              signal_threshold  = MinSNR()
-            )]
-            all_matches <- merge(
-              all_matches, dataR_metadata, by = "col_id", all.x = TRUE, sort = FALSE
-            )
-
-            all_matches[, `:=`(
-              good_match_vals = match_val > match_threshold,
-              good_signal     = signal_to_noise > signal_threshold
-            )]
-
-            if (grepl("Simple", input$columns_selected)) {
-              all_matches <- all_matches[, .(
-                file_name, col_id, material_class, match_val, signal_to_noise
-              )]
-            }
-
-            all_matches[match_val < MinCor(), material_class := "unknown"]
-
-            fwrite(all_matches, file)
-          # })
         }
         else{
           result <- bind_cols(DataR()$metadata, matches_to_single())
@@ -1100,7 +1099,6 @@ function(input, output, session) {
     # })
     }
     )
-    
 
   # Hide functions or objects when they shouldn't exist.
 

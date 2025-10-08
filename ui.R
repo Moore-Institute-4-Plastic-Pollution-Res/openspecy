@@ -231,7 +231,7 @@ dashboardPage(
                      br(),
                      p(class = "lead", HTML("Looking for the classic version of OpenSpecy? Go to <a href='https://wincowger.shinyapps.io/openspecy-classic'>https://wincowger.shinyapps.io/openspecy-classic</a>"))),
 
-              column(6, HTML("<iframe width='100%' height='100%' src='https://www.youtube-nocookie.com/embed/3RKufDxzriE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>")
+              column(6, HTML("<iframe width='100%' height='100%' src='https://www.youtube-nocookie.com/embed/3RKufDxzriE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'referrerpolicy='strict-origin-when-cross-origin' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>")
               )
             )
           )
@@ -244,10 +244,9 @@ dashboardPage(
             collapsed = FALSE,
             fluidRow(
               column(6,
-                     HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=HmRLfamgtrCYg5Gm&amp;list=PLqdH8O1nalYa4a8JXQ6GbNsH3YQV_aY7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'),
+                     HTML("<iframe width='560' height='315' src='https://www.youtube.com/embed/y2F4Fu6A4aA?si=s57bbWBxT-MJadmr' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'referrerpolicy='strict-origin-when-cross-origin' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>")
               ),
-              column(6,
-                     tags$ol(
+              column(6,                     tags$ol(
                        class = "lead", 
                        tags$li("Upload a .zip, .csv, .0, .asp, .jdx, .spc, or .spa file to the upload file tab."),
                        tags$li("Process your data using smoothing, derivative, baseline correction, flattening, range selection, and intensity adjustment."),
