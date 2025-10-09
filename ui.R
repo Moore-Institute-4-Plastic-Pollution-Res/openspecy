@@ -221,7 +221,7 @@ dashboardPage(
                                     or request a feature")
                      ),
                      p(class = "lead",
-                       HTML("Or just e-mail <a href='mailto:wincowger@gmail.com?subject=Open Specy mailing list'>
+                       HTML("Or just e-mail <a href='mailto:wincowger@gmail.com?subject=Open Specy mailing list' target='_blank'>
                                           wincowger@gmail.com</a>
                                           to be added to the Open Specy mailing list")
                      ),
@@ -229,8 +229,7 @@ dashboardPage(
                      p(class = "lead", "Open Specy is free and open
                                source thanks to our partners."),
                      br(),
-                     p(class = "lead", HTML("Looking for the classic version of OpenSpecy? Go to <a href='https://wincowger.shinyapps.io/openspecy-classic'>https://wincowger.shinyapps.io/openspecy-classic</a>"))),
-
+                     p(class = "lead", HTML("Looking for the classic version of OpenSpecy? Go to <a href='https://wincowger.shinyapps.io/openspecy-classic' target='_blank'>https://wincowger.shinyapps.io/openspecy-classic</a>"))),
               column(6, HTML("<iframe width='100%' height='100%' src='https://www.youtube-nocookie.com/embed/3RKufDxzriE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'referrerpolicy='strict-origin-when-cross-origin' allowfullscreen require-corp credentialless (Chrome > 96)></iframe>")
               )
             )
@@ -268,19 +267,19 @@ dashboardPage(
             title = h4("Useful Links"),
             status = "info",
             collapsed = FALSE,
-            a(href = "https://simple-plastics.eu/", "Free FTIR Software: siMPle microplastic IR spectral identification software", class = "lead"),
+            a(href = "https://simple-plastics.eu/", "Free FTIR Software: siMPle microplastic IR spectral identification software", class = "lead", target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://gitlab.ipfdd.de/GEPARD/gepard", "Free Raman and FTIR Software: GEPARD (Gepard-Enabled PARticle Detection for Raman microscopes) Designed for particle-based microplastic analysis", class = "lead"),
+            a(href = "https://gitlab.ipfdd.de/GEPARD/gepard", "Free Raman and FTIR Software: GEPARD (Gepard-Enabled PARticle Detection for Raman microscopes) Designed for particle-based microplastic analysis", class = "lead",target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://molview.org/", "Free chemical modeling tool with built in spectral query, MolView.", class = "lead"),
+            a(href = "https://molview.org/", "Free chemical modeling tool with built in spectral query, MolView.", class = "lead",target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://webbook.nist.gov/", "Free spectroscopy and chemical database NIST Chemistry WebBook", class = "lead"),
+            a(href = "https://webbook.nist.gov/", "Free spectroscopy and chemical database NIST Chemistry WebBook", class = "lead",target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://www.thermofisher.com/us/en/home/industrial/spectroscopy-elemental-isotope-analysis/spectroscopy-elemental-isotope-analysis-learning-center/molecular-spectroscopy-information.html", "Free Spectroscopy Learning Academy from ThermoFisher", class = "lead"),
+            a(href = "https://www.thermofisher.com/us/en/home/industrial/spectroscopy-elemental-isotope-analysis/spectroscopy-elemental-isotope-analysis-learning-center/molecular-spectroscopy-information.html", "Free Spectroscopy Learning Academy from ThermoFisher", class = "lead",target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://micro.magnet.fsu.edu/primer/", "Free Optical Microscopy Learning Resource from Florida State University", class = "lead"),
+            a(href = "https://micro.magnet.fsu.edu/primer/", "Free Optical Microscopy Learning Resource from Florida State University", class = "lead", target = "_blank", rel = "noopener noreferrer"),
             br(),
-            a(href = "https://www.effemm2.de/spectragryph/index.html", "Free desktop application for spectral analysis and links to reference databases.", class = "lead")   
+            a(href = "https://www.effemm2.de/spectragryph/index.html", "Free desktop application for spectral analysis and links to reference databases.", class = "lead",target = "_blank", rel = "noopener noreferrer")   
           )
         )
       ),    
@@ -726,7 +725,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_25",
+                          inputId = "donate_25_pop",
                           label = "$25",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -736,7 +735,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_50",
+                          inputId = "donate_50_pop",
                           label = "$50",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -746,7 +745,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_75",
+                          inputId = "donate_75_pop",
                           label = "$75",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -758,7 +757,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_100",
+                          inputId = "donate_100_pop",
                           label = "$100",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -768,7 +767,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_1k",
+                          inputId = "donate_1k_pop",
                           label = "$1,000",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -778,7 +777,7 @@ dashboardPage(
                       column(
                         4,
                         actionButton(
-                          inputId = "donate_other",
+                          inputId = "donate_other_pop",
                           label = "Other",
                           style = "padding:4px; background-color: #2a9fd6; font-size:200%",
                           width = "100%",
@@ -826,7 +825,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item active",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_totebag",
+                          href = "https://openspecy.myspreadshop.com/open+specy+logo-A608acf03636e3e62190df397?productType=842&sellable=kaDZQz7Zx7iJXOMoy9wj-842-33&appearance=2&size=29",
                           target = "_blank",
                           img(src = "openspecy_totebag.jpg", width = 500, height = 500)
                         )
@@ -835,7 +834,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_hat",
+                          href = "https://openspecy.myspreadshop.com/open+specy-A5ea87c4b1cbf3a62d81533af?productType=803&sellable=N0rl8bzn7JT9ApNgNkkx-803-34&appearance=231&size=29",
                           target = "_blank",
                           img(src = "openspecy_hat.jpg", width = 500, height = 500)
                         )
@@ -844,7 +843,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_mug",
+                          href = "https://openspecy.myspreadshop.com/open+specy+logo-A608acf03636e3e62190df397?productType=1313&sellable=kaDZQz7Zx7iJXOMoy9wj-1313-32&appearance=1&size=29",
                           target = "_blank",
                           img(src = "openspecy_mug.jpg", width = 500, height = 500)
                         )
@@ -853,7 +852,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_hoodie",
+                          href = "https://openspecy.myspreadshop.com/analytical+chemistry+vibrant+no+logo-A60c221d8a861f15c38d7a96e?productType=405&sellable=kaDEr5GE4XfDX8OlkEg8-405-23&appearance=1003",
                           target = "_blank",
                           img(src = "openspecy_hoodie.jpg", width = 500, height = 500)
                         )
@@ -862,7 +861,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_shirt",
+                          href = "https://openspecy.myspreadshop.com/open+specy+logo-A608acf03636e3e62190df397?productType=813&sellable=kaDZQz7Zx7iJXOMoy9wj-813-8&appearance=823",
                           target = "_blank",
                           img(src = "openspecy_shirt.jpg", width = 500, height = 500)
                         )
@@ -871,7 +870,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_sticker",
+                          href = "https://openspecy.myspreadshop.com/open+specy-A5ea87c4b1cbf3a62d81533af?productType=1459&sellable=N0rl8bzn7JT9ApNgNkkx-1459-215&appearance=839&size=167",
                           target = "_blank",
                           img(src = "openspecy_sticker.jpg", width = 500, height = 500)
                         )
@@ -880,7 +879,7 @@ dashboardPage(
                       tags$div(
                         class = "carousel-item",
                         tags$a(
-                          href = "https://openspecy.myspreadshop.com/open+specy_tiedye",
+                          href = "https://openspecy.myspreadshop.com/analytical+chemistry+vibrant+no+logo-A60c221d8a861f15c38d7a96e?productType=491&sellable=kaDEr5GE4XfDX8OlkEg8-491-8&appearance=822",
                           target = "_blank",
                           img(src = "openspecy_tiedye.jpg", width = 500, height = 500)
                         )

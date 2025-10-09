@@ -1149,12 +1149,15 @@ function(input, output, session) {
     req(!is.null(preprocessed$data))
     if (ncol(preprocessed$data$spectra) > 1) {
       tagList(
-        div(style = "display:flex;justify-content:center;", actionButton("up_spec", label = NULL, icon = icon("arrow-up"))),
+        div(style = "display:flex;justify-content:center;", tooltip(actionButton("up_spec", label = NULL, icon = icon("arrow-up")), 
+                                                                    "Navigate throughout the heatmap!",
+                                                                    placement = "right"
+                                                                    )),
         div(style = "display:flex;justify-content:center;gap:2.0em;",
             actionButton("left_spec",  label = NULL, icon = icon("arrow-left")),
             actionButton("right_spec", label = NULL, icon = icon("arrow-right"))
         ),
-        div(style = "display:flex;justify-content:center;", actionButton("down_spec", label = NULL, icon = icon("arrow-down")))
+        div(style = "display:flex;justify-content:center;margin-bottom:2em;", actionButton("down_spec", label = NULL, icon = icon("arrow-down")))
       )
     }
   })
