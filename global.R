@@ -57,7 +57,7 @@ read_app_metadata <- function(path = metadata_file) {
 
 build_version_display <- function(metadata) {
   default_href <- "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/openspecy?tab=readme-ov-file#version-history"
-  default_text <- paste0("Last Updated: ", format(Sys.Date()))
+  default_text <- paste0("Last Updated: ", "2026-05-07")
   default_title <- "Click here to view older versions of this app"
 
   if (is.null(metadata)) {

@@ -657,7 +657,7 @@ dashboardPage(
                              div(
                                id = "heatmap_wrap",
                                shinycssloaders::withSpinner(
-                                 plotlyOutput("heatmapA", inline = TRUE, width = "1600px"), type = 8
+                                 plotlyOutput("heatmapA", inline = TRUE, width = "100%"), type = 8
                                  
                              )
                       
@@ -665,7 +665,7 @@ dashboardPage(
                       # column(1, uiOutput("nav_buttons"))
                     ),
                     shinycssloaders::withSpinner(
-                          plotlyOutput("MyPlotC", inline = T, width = "1600px"), type = 8),
+                          plotlyOutput("MyPlotC", inline = T, width = "100%"), type = 8),
                     div(style = "overflow-x: scroll",
                         DT::dataTableOutput("eventmetadata")
                     ),
